@@ -37,8 +37,6 @@ Este repositorio contiene el desarrollo del backend para un **Sistema de Gestió
 
 ## 📂 Estructura del proyecto
 
-## Estructura del Proyecto
-
 ```plaintext
 backend/
 ├── src/
