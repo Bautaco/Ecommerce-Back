@@ -36,7 +36,7 @@ Este repositorio contiene el desarrollo del backend para un **Sistema de Gestió
 - **API REST:** Construcción de servicios RESTful con Swagger/OpenAPI.
 
 ## 📂 Estructura del proyecto
-
+```
 backend/
 ├── src/
 │   ├── main/
@@ -52,7 +52,7 @@ backend/
 │           ├── application.properties  # Configuración de la aplicación
 │           └── db/migration/           # Migraciones de base de datos (Flyway)
 └── pom.xml                            # Gestión de dependencias Maven
-
+```
 
 ## 📋 Requisitos previos
 
