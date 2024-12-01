@@ -38,17 +38,18 @@ Este repositorio contiene el desarrollo del backend para un **Sistema de Gestió
 ## 📂 Estructura del proyecto
 
 backend/ 
-├── src/main/java/com/tuusuario 
-│ ├── config/ # Configuración de Spring y seguridad 
-│ ├── controller/ # Controladores REST 
-│ ├── dto/ # Data Transfer Objects 
-│ ├── entity/ # Entidades JPA 
-│ ├── repository/ # Repositorios JPA 
-│ ├── service/ # Servicios y lógica de negocio 
-│ └── util/ # Utilidades y validaciones ├── src/main/resources/ 
-│ ├── application.properties # Configuración de la aplicación 
-│ └── db/migration/ # Migraciones de base de datos (Flyway) 
-└── pom.xml # Gestión de dependencias Maven
+
+├── src/main/java/com/tuusuario.
+│ ├── config/ # Configuración de Spring y seguridad .
+│ ├── controller/ # Controladores REST .
+│ ├── dto/ # Data Transfer Objects .
+│ ├── entity/ # Entidades JPA .
+│ ├── repository/ # Repositorios JPA .
+│ ├── service/ # Servicios y lógica de negocio .
+│ └── util/ # Utilidades y validaciones ├── src/main/resources/ .
+│ ├── application.properties # Configuración de la aplicación .
+│ └── db/migration/ # Migraciones de base de datos (Flyway) .
+└── pom.xml # Gestión de dependencias Maven.
 
 
 ## 📋 Requisitos previos
@@ -68,17 +69,20 @@ backend/
 2. **Configurar la base de datos**:
     -Crear una base de datos en PostgreSQL.
     -Configurar las credenciales en src/main/resources/application.properties:
+
        - spring.datasource.url=jdbc:postgresql://localhost:5432/nombre_bd
        - spring.datasource.username=usuario
        - spring.datasource.password=contraseña
        - spring.jpa.hibernate.ddl-auto=update
 
-3. **Ejecutar migraciones de base de datos**:
-      - mvn flyway:migrate
+4. **Ejecutar migraciones de base de datos**:
+     
+        - mvn flyway:migrate
 
-4. **Construir y ejecutar el proyecto**:
-      - mvn clean install
-      - mvn spring-boot:run
+5. **Construir y ejecutar el proyecto**:
+      
+       - mvn clean install
+       - mvn spring-boot:run
 
 ## 🧪 Pruebas
 
