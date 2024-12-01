@@ -58,7 +58,7 @@ backend/
 - **JDK 21**
 - **Maven 3.8+**
 - **PostgreSQL 14+**
-- **Herramienta para ejecutar y probar APIs (Postman o Swagger UI)**
+- **Herramienta para ejecutar y probar APIs (Postman)**
 
 ## 🚀 Configuración e instalación
 
@@ -91,4 +91,4 @@ backend/
 
        - mvn test
    
-3. **Probar los endpoints utilizando Postman o Swagger**.
+3. **Probar los endpoints utilizando Postman**.
