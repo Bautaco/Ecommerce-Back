@@ -40,17 +40,16 @@ Este repositorio contiene el desarrollo del backend para un **Sistema de Gestió
 backend/
 ├── src/
 │   ├── main/
-│       ├── java/com/tuusuario/
+│       ├── java/com/example/pa
 │       │   ├── config/           # Configuración de Spring y seguridad
 │       │   ├── controller/       # Controladores REST
-│       │   ├── dto/              # Data Transfer Objects
-│       │   ├── entity/           # Entidades JPA
+│       │   │     ├── dto/              # Data Transfer Objects
+│       │   │     ├── mapper/           # Mapeo entre DTOs y entidades
+│       │   ├── model/           # Entidades JPA
 │       │   ├── repository/       # Repositorios JPA
-│       │   ├── service/          # Servicios y lógica de negocio
-│       │   └── util/             # Utilidades y validaciones
+│       │   └── service/          # Servicios y lógica de negocio
 │       ├── resources/
-│           ├── application.properties  # Configuración de la aplicación
-│           └── db/migration/           # Migraciones de base de datos (Flyway)
+│           └── application.properties  # Configuración de la aplicación
 └── pom.xml                            # Gestión de dependencias Maven
 ```
 
