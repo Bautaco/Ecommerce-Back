@@ -37,7 +37,6 @@ Este repositorio contiene el desarrollo del backend para un **Sistema de Gestió
 
 ## 📂 Estructura del proyecto
 
-```plaintext
 backend/
 ├── src/
 │   ├── main/
@@ -53,7 +52,6 @@ backend/
 │           ├── application.properties  # Configuración de la aplicación
 │           └── db/migration/           # Migraciones de base de datos (Flyway)
 └── pom.xml                            # Gestión de dependencias Maven
-
 
 
 ## 📋 Requisitos previos
