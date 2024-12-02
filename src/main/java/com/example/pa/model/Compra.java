@@ -24,11 +24,16 @@ public class Compra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    boolean estado;
+    private boolean activo =true;
+
+    public enum Estado{Inicializado,Finalizado,Pendiente}
+
+    private Estado estado;
+
     //usuario Cliente;
 
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    
+
     private List<Producto> productos = new ArrayList<>();
 
     public Compra() {
@@ -43,15 +48,18 @@ public class Compra {
     }
 
     public void agregarProducto(Producto producto)  //agrega un producto a la compra
-    {   
+    {
         productos.add(producto);
-    }    
-    
-    public Compra(long ID, List<Producto> listaProducto){
+    }
+
+    public Compra(long ID, List<Producto> listaProducto /*, Usuario cliente*/){
         //TODO traer usuario
         this.id=ID;
         this.productos=listaProducto;
-        this.estado=true;
+        this.estado = Estado.Inicializado; 
+        //this.cliente=cliente;
+        this.activo=true;
     }
+
 
 }

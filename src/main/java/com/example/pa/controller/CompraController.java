@@ -11,7 +11,5 @@ import com.example.pa.service.CompraService;
 public class CompraController {
     @Autowired
     private CompraService compraService;
-
-   
-
+    
 }

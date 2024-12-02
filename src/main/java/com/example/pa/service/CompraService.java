@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.pa.model.Compra;
-import com.example.pa.model.Marca;
 import com.example.pa.model.Producto;
 import com.example.pa.repository.CompraRepository;
 
@@ -67,12 +66,13 @@ public class CompraService {
     //         marcaRepository.save(marca);
     //     }
     // }
+
     public void eliminarCompra(long id){
         Optional<Compra> compraOpt = compraRepository.findById(id);
         if (compraOpt.isPresent()){
             Compra compra= compraOpt.get();
-            compra.set
+            compra.setActivo(false); //eliminacion loguica
         }
-
+        
     }
 }
