@@ -26,7 +26,11 @@ public class Compra {
 
     private boolean activo =true;
 
-    public enum Estado{Inicializado,Finalizado,Pendiente}
+    public void setActivo(boolean b) {
+        this.activo=b;
+    }
+
+    public enum Estado{En_proceso,Enviado,Completado}
 
     private Estado estado;
 
@@ -54,10 +58,10 @@ public class Compra {
 
     public Compra(long ID, List<Producto> listaProducto /*, Usuario cliente*/){
         //TODO traer usuario
+        //this.cliente=cliente;
         this.id=ID;
         this.productos=listaProducto;
-        this.estado = Estado.Inicializado; 
-        //this.cliente=cliente;
+        this.estado = Estado.En_proceso; 
         this.activo=true;
     }
 
