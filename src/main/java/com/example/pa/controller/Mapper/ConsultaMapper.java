@@ -4,13 +4,14 @@ import org.mapstruct.*;
 
 import com.example.pa.controller.DTO.ConsultaDTO.ConsultaDTO;
 import com.example.pa.model.Consulta;
+import com.example.pa.model.EstadoConsulta;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", imports = EstadoConsulta.class)
 public interface ConsultaMapper {
 
-    @Mapping(target = "fechaEnvio", expression = "java(java.time.LocalDateTime.now())")
-    @Mapping(target = "estado", constant = "Pendiente")
-    Consulta toEntity(ConsultaDTO dto);
+    @Mapping(target = "estado", expression = "java(EstadoConsulta.valueOf(dto.getEstado().toUpperCase()))")
+    Consulta toEntity(ConsultaDTO ConsultaDTO);
 
-    ConsultaDTO toDTO(Consulta consulta);
+    @Mapping(target = "estado", expression = "java(consulta.getEstado().toString())")
+    ConsultaDTO toDTO(Consulta Consulta);
 }

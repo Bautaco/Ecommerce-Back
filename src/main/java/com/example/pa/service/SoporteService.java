@@ -15,25 +15,24 @@ import com.example.pa.repository.ConsultaRepository;
 
 @Service
 public class SoporteService {
-    private final String RUTA_ARCHIVOS = "C:\\Users\\matia\\OneDrive\\Escritorio\\Matias\\la facu\\cuarto año\\programacion avanzada\\PA\\archivosSoporte";
-
+    private final String rutaArchivos = System.getProperty("user.dir") + File.separator + "archivosSoporte" + File.separator;
     @Autowired
     private ConsultaRepository consultaRepository;
 
 
     private void verificarPermisosDeEscritura() {
-        File directorio = new File(RUTA_ARCHIVOS);
+        File directorio = new File(rutaArchivos);
         if (!directorio.exists()) {
             directorio.mkdirs();
         }
         if (!directorio.canWrite()) {
-            throw new RuntimeException("No hay permisos de escritura en el directorio: " + RUTA_ARCHIVOS);
+            throw new RuntimeException("No hay permisos de escritura en el directorio: " + rutaArchivos);
         }
     }
 
     
     public Consulta crearConsulta(ConsultaDTO consultaDTO) throws IOException {
-        Consulta consulta = new Consulta();
+        Consulta consulta = new Consulta(null, rutaArchivos, null, null, null);
         consulta.setDescripcion(consultaDTO.getDescripcion());
         consulta.setFechaEnvio(LocalDateTime.now());
         this.verificarPermisosDeEscritura();
@@ -59,7 +58,7 @@ public class SoporteService {
                 }
                 
                 String nombreArchivo = UUID.randomUUID() + "_" + archivo.getOriginalFilename();
-                File archivoDestino = new File(RUTA_ARCHIVOS + nombreArchivo);
+                File archivoDestino = new File(rutaArchivos + nombreArchivo);
                 archivo.transferTo(archivoDestino);
                 rutasGuardadas.add(nombreArchivo);
             }

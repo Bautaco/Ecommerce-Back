@@ -28,6 +28,16 @@ public class Consulta {
     @ElementCollection
     private List<String> archivosAdjuntos;
 
+    //Constructor
+    public Consulta(Long id, String descripcion, LocalDateTime fechaEnvio, EstadoConsulta estado,
+            List<String> archivosAdjuntos) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.fechaEnvio = fechaEnvio;
+        this.estado = estado;
+        this.archivosAdjuntos = archivosAdjuntos;
+    }
+    
     // Getters y setters de cada atributo
     public Long getId() {
         return id;
