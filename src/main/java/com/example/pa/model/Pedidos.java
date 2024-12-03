@@ -18,31 +18,30 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(exclude = "productos")
-public class Compra {
-
+public class Pedidos {
+    public enum Estado{En_proceso,Enviado,Completado}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private boolean activo =true;
-
-    public void setActivo(boolean b) {
-        this.activo=b;
-    }
-
-    public enum Estado{En_proceso,Enviado,Completado}
-
     private Estado estado;
-
     //usuario Cliente;
 
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 
     private List<Producto> productos = new ArrayList<>();
 
-    public Compra() {
+    public Pedidos() {
     }
-
+    public Pedidos(long ID, List<Producto> listaProducto /*, Usuario cliente*/){
+        //TODO traer usuario
+        //this.cliente=cliente;
+        this.id=ID;
+        this.productos=listaProducto;
+        this.estado = Estado.En_proceso; 
+        this.activo=true;
+    }
+    
     public void eliminarProducto(long idProducto) {
         productos.removeIf(producto -> producto.getId().equals(idProducto));
     }
@@ -55,15 +54,7 @@ public class Compra {
     {
         productos.add(producto);
     }
-
-    public Compra(long ID, List<Producto> listaProducto /*, Usuario cliente*/){
-        //TODO traer usuario
-        //this.cliente=cliente;
-        this.id=ID;
-        this.productos=listaProducto;
-        this.estado = Estado.En_proceso; 
-        this.activo=true;
+    public void setActivo(boolean b) {
+        this.activo=b;
     }
-
-
 }

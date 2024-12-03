@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.pa.service.CompraService;
+import com.example.pa.service.PedidosService;
 
 @RestController
 @RequestMapping("/api/Compra")
-public class CompraController {
+public class PedidosController {
     @Autowired
-    private CompraService compraService;
+    private PedidosService pedidosService;
     
 }
