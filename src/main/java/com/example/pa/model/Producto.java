@@ -47,7 +47,7 @@ public class Producto {
 
     @ManyToOne
     @JoinColumn(name = "compra_id")
-    private Compra compra;
+    private Pedidos pedidos;
     
 
     @ManyToOne
