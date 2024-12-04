@@ -46,6 +46,11 @@ public class Producto {
     private Categoria categoria;
 
     @ManyToOne
+    @JoinColumn(name = "compra_id")
+    private Compra compra;
+    
+
+    @ManyToOne
     @JoinColumn(name = "marca_id")
     private Marca Marca;
     
