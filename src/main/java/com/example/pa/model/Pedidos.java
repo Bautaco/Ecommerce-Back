@@ -46,7 +46,7 @@ public class Pedidos {
     public void setEstado(Estado estadoValido) {
         this.estado=estadoValido;
     }
-    
+
     public void eliminarProducto(long idProducto) {
         producto.removeIf(producto -> producto.getId().equals(idProducto));
     }
