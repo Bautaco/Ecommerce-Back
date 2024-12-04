@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-03T00:23:57-0300",
+    date = "2024-12-04T19:56:05-0300",
     comments = "version: 1.6.2, compiler: Eclipse JDT (IDE) 3.40.0.z20241112-1021, environment: Java 17.0.13 (Eclipse Adoptium)"
 )
 @Component
@@ -47,4 +47,11 @@ public class ConsultaMapperImpl implements ConsultaMapper {
 
         descripcion = Consulta.getDescripcion();
 
-        EstadoConsulta estado = consu
+        EstadoConsulta estado = consulta.getEstado().toString();
+        List<MultipartFile> archivos = null;
+
+        ConsultaDTO consultaDTO = new ConsultaDTO( descripcion, estado, archivos );
+
+        return consultaDTO;
+    }
+}
