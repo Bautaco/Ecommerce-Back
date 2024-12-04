@@ -19,6 +19,8 @@ import lombok.ToString;
 @Getter
 @ToString(exclude = "productos")
 public class Pedidos {
+
+   
     public enum Estado{En_proceso,Enviado,Completado}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +42,9 @@ public class Pedidos {
         this.productos=listaProducto;
         this.estado = Estado.En_proceso; 
         this.activo=true;
+    }
+    public void setEstado(Estado estadoValido) {
+        this.estado=estadoValido;
     }
     
     public void eliminarProducto(long idProducto) {

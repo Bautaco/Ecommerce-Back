@@ -8,6 +8,6 @@ import com.example.pa.model.Pedidos;
 @Mapper
 public interface PedidosMapper {
 
-    PedidosDTO toDO(Pedidos pedidos);
-    Pedidos toEmtity(PedidosDTO pedidosDTO);
+    PedidosDTO toDO (Pedidos pedidos);
+    Pedidos toEmtity (PedidosDTO pedidosDTO);
 }
