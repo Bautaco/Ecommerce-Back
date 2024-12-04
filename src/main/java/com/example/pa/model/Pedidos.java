@@ -17,7 +17,7 @@ import lombok.ToString;
 @Entity
 @Setter
 @Getter
-@ToString(exclude = "productos")
+@ToString(exclude = "producto")
 public class Pedidos {
 
    
@@ -31,7 +31,7 @@ public class Pedidos {
 
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 
-    private List<Producto> productos = new ArrayList<>();
+    private List<Producto> producto = new ArrayList<>();
 
     public Pedidos() {
     }
@@ -39,7 +39,7 @@ public class Pedidos {
         //TODO traer usuario
         //this.cliente=cliente;
         this.id=ID;
-        this.productos=listaProducto;
+        this.producto=listaProducto;
         this.estado = Estado.En_proceso; 
         this.activo=true;
     }
@@ -48,16 +48,16 @@ public class Pedidos {
     }
     
     public void eliminarProducto(long idProducto) {
-        productos.removeIf(producto -> producto.getId().equals(idProducto));
+        producto.removeIf(producto -> producto.getId().equals(idProducto));
     }
 
     public double getTotal() {
-        return productos.stream().mapToDouble(p -> p.getPrecio() * p.getStock()).sum();
+        return producto.stream().mapToDouble(p -> p.getPrecio() * p.getStock()).sum();
     }
 
     public void agregarProducto(Producto producto)  //agrega un producto a la compra
     {
-        productos.add(producto);
+        producto.add(producto);
     }
     public void setActivo(boolean b) {
         this.activo=b;

@@ -35,7 +35,7 @@ public class PedidosController {
         List<PedidosDTO> pedidosDTO = pedidos.stream()
                                              .map(pedido -> new PedidosDTO(
                                                  pedido.getId(), // ID
-                                                 pedido.getProductos(), // Lista de productos
+                                                 pedido.getProducto(), // Lista de productos
                                                  pedido // Objeto Pedidos completo
                                              ))
                                              .collect(Collectors.toList());
@@ -54,7 +54,7 @@ public class PedidosController {
         // Convertir el objeto Pedidos a PedidosDTO
         PedidosDTO detallesDTO = new PedidosDTO(
             detalles.getId(), 
-            detalles.getProductos(), 
+            detalles.getProducto(), 
             detalles // Pasar el objeto completo si es necesario
         );
     
@@ -75,7 +75,7 @@ public ResponseEntity<PedidosDTO> actualizarEstadoPedido(
         // Convertir el pedido actualizado a un PedidosDTO
         PedidosDTO pedidoDTO = new PedidosDTO(
                 pedidoActualizado.getId(),
-                pedidoActualizado.getProductos(),
+                pedidoActualizado.getProducto(),
                 pedidoActualizado
         );
 

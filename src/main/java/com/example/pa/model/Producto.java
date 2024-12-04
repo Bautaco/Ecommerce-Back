@@ -187,5 +187,10 @@ public class Producto {
         this.subcategoria = subcategoria;
     }
 
+    public void add(Producto producto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'add'");
+    }
+
     
 }
