@@ -12,7 +12,6 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-
 public class PedidosDTO {
     private long id;
     private boolean activo = true;
@@ -30,5 +29,4 @@ public class PedidosDTO {
         this.activo=true;
         this.pedidos=pedidos;
     }
-    public PedidosDTO(){}
 }
