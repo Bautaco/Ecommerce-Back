@@ -45,9 +45,9 @@ public class Producto {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-   // @ManyToOne
-   // @JoinColumn(name = "pedido_id")
-   // private Pedidos pedidos;
+    @ManyToOne
+    @JoinColumn(name = "pedido_id")
+    private Pedidos pedidos;
     
 
     @ManyToOne
