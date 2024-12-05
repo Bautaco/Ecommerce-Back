@@ -45,9 +45,9 @@ public class Producto {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    @ManyToOne
-    @JoinColumn(name = "compra_id")
-    private Compra compra;
+   // @ManyToOne
+   // @JoinColumn(name = "pedido_id")
+   // private Pedidos pedidos;
     
 
     @ManyToOne
@@ -190,6 +190,11 @@ public class Producto {
 
     public void setSubcategoria(SubCategoria subcategoria) {
         this.subcategoria = subcategoria;
+    }
+
+    public void add(Producto producto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'add'");
     }
 
     

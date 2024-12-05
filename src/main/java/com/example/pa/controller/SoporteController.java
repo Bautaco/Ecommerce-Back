@@ -23,6 +23,7 @@ public class SoporteController {
     @Autowired
     private SoporteService soporteService;
 
+    //Recibir y procesar una consulta de soporte utilizando un DTO que llega como un @ModelAttribute.
     @PostMapping("/consultas")
     public ResponseEntity<Map<String, Object>> crearConsulta(@ModelAttribute ConsultaDTO consultaDTO) {
         try {
