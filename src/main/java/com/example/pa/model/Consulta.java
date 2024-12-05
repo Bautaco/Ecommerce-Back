@@ -64,7 +64,6 @@ public class Consulta {
         this.estado = estado;
     }
     public void setArchivosAdjuntos(List<String> rutasArchivos) {
-        // TODO Auto-generated method stub
         this.archivosAdjuntos = rutasArchivos;
     } 
 

@@ -15,9 +15,6 @@ import com.example.pa.repository.PedidosRepository;
 
 
 @Service
-
-
- 
 public class PedidosService {
     @Autowired
     private PedidosRepository pedidosRepository;
@@ -94,7 +91,6 @@ public class PedidosService {
 
 
     public List<Pedidos> obtenerHistorialPedidos(Long clienteId) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'obtenerHistorialPedidos'");
     }
     

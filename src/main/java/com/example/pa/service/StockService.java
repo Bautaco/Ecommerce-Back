@@ -38,7 +38,6 @@ public class StockService {
     }
 
     public void registrarAjusteStock(Long productoId, Integer cantidadAjustada, String razonAjuste) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'registrarAjusteStock'");
     }
 }

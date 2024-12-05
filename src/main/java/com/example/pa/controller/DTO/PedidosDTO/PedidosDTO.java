@@ -18,12 +18,12 @@ public class PedidosDTO {
     private boolean activo;
     private Estado estado;  // Usamos el enum directamente
     private User cliente;  // Objeto completo del cliente
-    private List<Producto> productos;  // Lista de productos
+    private List<Producto> producto;  // Lista de productos
 
     // Constructor para facilitar la creación
-    public PedidosDTO(long id, List<Producto> productos, Estado estado, boolean activo, User cliente) {
+    public PedidosDTO(long id, List<Producto> producto, Estado estado, boolean activo, User cliente) {
         this.id = id;
-        this.productos = productos;
+        this.producto = producto;
         this.estado = estado;
         this.activo = activo;
         this.cliente = cliente;
@@ -32,7 +32,7 @@ public class PedidosDTO {
     // Constructor vacío para MapStruct
     public PedidosDTO() {}
     public double getTotal() {
-        return productos.stream().mapToDouble(p -> p.getPrecio() * p.getStock()).sum();
+        return producto.stream().mapToDouble(p -> p.getPrecio() * p.getStock()).sum();
     }
 }
     

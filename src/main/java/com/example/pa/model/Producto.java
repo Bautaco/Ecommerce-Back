@@ -46,7 +46,7 @@ public class Producto {
     private Categoria categoria;
 
     @ManyToOne
-    @JoinColumn(name = "pedido_id")
+    @JoinColumn(name = "pedidos_id")
     private Pedidos pedidos;
     
 
@@ -193,7 +193,6 @@ public class Producto {
     }
 
     public void add(Producto producto) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'add'");
     }
 

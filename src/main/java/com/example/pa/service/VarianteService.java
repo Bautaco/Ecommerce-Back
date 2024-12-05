@@ -76,16 +76,15 @@ public class VarianteService {
 
     public void save(VarianteService varianteService) {
         
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        throw new UnsupportedOperationException("Método no implementado 'guardar'");
     }
 
     public Variante findById(Long id) {
         
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        throw new UnsupportedOperationException("Método no implementado 'findById'");
     }
 
     public void actualizarVariante(Long id, int cantidad) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actualizarVariante'");
+        throw new UnsupportedOperationException("Método no implementado 'actualizarVariante'");
     }
 }

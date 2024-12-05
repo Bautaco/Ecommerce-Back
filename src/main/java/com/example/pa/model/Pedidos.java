@@ -31,14 +31,13 @@ public class Pedidos {
     private Estado estado;
     private User cliente;
 
-    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "pedidos", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 
     private List<Producto> producto = new ArrayList<>();
 
     public Pedidos() {
     }
     public Pedidos(long ID, List<Producto> listaProducto , User cliente){
-        //TODO traer usuario
         this.cliente=cliente;
         this.id=ID;
         this.producto=listaProducto;
