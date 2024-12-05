@@ -16,12 +16,14 @@ public class MarcaController {
     @Autowired
     private MarcaService marcaService;
 
+    // Crear una nueva marca
     @PostMapping
     public ResponseEntity<MarcaDTO> crearMarca(@RequestBody MarcaDTO marcaDTO) {
         MarcaDTO nuevaMarca = marcaService.crearMarca(marcaDTO);
         return new ResponseEntity<>(nuevaMarca, HttpStatus.CREATED);
     }
 
+    // Actualizar una marca existente
      @PutMapping("/{id}")
     public ResponseEntity<MarcaDTO> actualizarMarca(@PathVariable Long id, @RequestBody MarcaDTO marcaDTO) {
         MarcaDTO marcaActualizada = marcaService.actualizarMarca(id, marcaDTO);
@@ -30,15 +32,18 @@ public class MarcaController {
             : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    // Eliminar una marca (cambio de estado)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarMarca(@PathVariable Long id) {
         marcaService.eliminarMarca(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    // Obtener todas las marcas activas
     @GetMapping
     public ResponseEntity<List<MarcaDTO>> obtenerMarcas() {
         List<MarcaDTO> marcas = marcaService.obtenerMarcas();
         return new ResponseEntity<>(marcas, HttpStatus.OK);
     }
+
 }

@@ -17,11 +17,13 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
+    // Listar todos los productos activos
     @GetMapping
     public List<Producto> listarProductos() {
         return productoService.listarProductosActivos();
     }
 
+    // Crear un nuevo producto
     @PostMapping
     public ResponseEntity<Producto> crearProducto(@RequestBody Producto producto) {
         if (producto.getPrecio() < 0) {
@@ -31,6 +33,7 @@ public class ProductoController {
         return ResponseEntity.ok(nuevoProducto);
     }
 
+    // Actualizar un producto existente
     @PutMapping("/{id}")
     public ResponseEntity<Producto> actualizarProducto(@PathVariable Long id, @RequestBody Producto productoActualizado) {
         // Verificar si producto Actualizado es null
@@ -48,11 +51,13 @@ public class ProductoController {
         return ResponseEntity.ok(producto);
     }
 
+    // Eliminar un producto (cambio de estado a inactivo)
     @DeleteMapping("/{id}")
     public void eliminarProducto(@PathVariable Long id) {
         productoService.eliminarProducto(id);
     }
 
+    // Recuperar un producto eliminado
     @PutMapping("/recuperar/{id}")
     public Producto recuperarProducto(@PathVariable Long id) {
         return productoService.recuperarProducto(id);

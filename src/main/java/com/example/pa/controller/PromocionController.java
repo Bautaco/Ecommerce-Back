@@ -15,11 +15,13 @@ public class PromocionController {
     @Autowired
     private PromocionService promocionService;
 
-    @PostMapping
+    // Crear una nueva promoción
+    @PostMapping 
     public Promocion crearPromocion(@RequestBody Promocion promocion) {
         return promocionService.crearPromocion(promocion);
     }
 
+    // Listar todas las promociones activas
     @GetMapping
     public List<Promocion> listarPromocionesActivas() {
         return promocionService.listarPromocionesActivas();

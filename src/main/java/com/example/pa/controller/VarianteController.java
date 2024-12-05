@@ -54,6 +54,7 @@ public class VarianteController {
         return varianteService.recuperarVariante(id);
     }
 
+    // Actualizar el stock de una variante.
     @PutMapping("/{id}/stock")
     public ResponseEntity<Variante> updateStock(@PathVariable Long id, @RequestParam int newStock) {
         Variante variant = varianteService.findById(id);
