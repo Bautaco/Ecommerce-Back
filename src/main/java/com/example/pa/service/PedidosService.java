@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.pa.User.User;
 import com.example.pa.model.Pedidos;
 import com.example.pa.model.Pedidos.Estado;
 import com.example.pa.model.Producto;
@@ -52,9 +53,9 @@ public class PedidosService {
         return pedidosRepository.save(compra); // Guardar la compra actualizada
     }
     // crear compra
-    public Pedidos crearPedidos(long id,List<Producto>listaProducto)
+    public Pedidos crearPedidos(long id,List<Producto>listaProducto,User cliente)
     {
-        Pedidos compra = new Pedidos (id,listaProducto);
+        Pedidos compra = new Pedidos (id,listaProducto,cliente);
         return pedidosRepository.save(compra);
     }
     //Eliminar Pedido

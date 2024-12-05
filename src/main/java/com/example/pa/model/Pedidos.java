@@ -2,6 +2,8 @@ package com.example.pa.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.pa.User.User;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -27,7 +29,7 @@ public class Pedidos {
     private Long id;
     private boolean activo =true;
     private Estado estado;
-    //usuario Cliente;
+    private User cliente;
 
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 
@@ -35,9 +37,9 @@ public class Pedidos {
 
     public Pedidos() {
     }
-    public Pedidos(long ID, List<Producto> listaProducto /*, Usuario cliente*/){
+    public Pedidos(long ID, List<Producto> listaProducto , User cliente){
         //TODO traer usuario
-        //this.cliente=cliente;
+        this.cliente=cliente;
         this.id=ID;
         this.producto=listaProducto;
         this.estado = Estado.En_proceso; 

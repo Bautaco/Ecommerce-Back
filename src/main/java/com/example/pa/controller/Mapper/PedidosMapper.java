@@ -5,9 +5,10 @@ import org.mapstruct.Mapper;
 import com.example.pa.controller.DTO.PedidosDTO.PedidosDTO;
 import com.example.pa.model.Pedidos;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PedidosMapper {
 
-    PedidosDTO toDO (Pedidos pedidos);
-    Pedidos toEmtity (PedidosDTO pedidosDTO);
+    PedidosDTO toDTO(Pedidos pedidos);
+
+    Pedidos toEntity(PedidosDTO pedidosDTO);
 }
