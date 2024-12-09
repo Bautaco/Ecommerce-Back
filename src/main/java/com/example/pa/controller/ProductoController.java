@@ -25,13 +25,13 @@ public class ProductoController {
     private ProductoService productoService;
 
     // Listar todos los productos activos
-    @GetMapping()
+    @GetMapping
     public List<Producto> listarProductos() {
         return productoService.listarProductosActivos();
     }
 
     // Crear un nuevo producto
-    @PostMapping
+    @PostMapping("/crear")
     public ResponseEntity<Producto> crearProducto(@RequestBody Producto producto) {
         if (producto.getPrecio() < 0) {
             return ResponseEntity.badRequest().body(null); // Respuesta de error

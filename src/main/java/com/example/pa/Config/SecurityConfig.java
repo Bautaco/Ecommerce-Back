@@ -1,50 +1,3 @@
-// package com.example.pa.Config;
-
-
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import org.springframework.security.authentication.AuthenticationProvider;
-// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-// import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-// import org.springframework.security.config.http.SessionCreationPolicy;
-// import org.springframework.security.web.SecurityFilterChain;
-// import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-// import com.example.pa.Jwt.JwtAuthenticationFilter;
-
-// import lombok.RequiredArgsConstructor;
-
-// @Configuration
-// @EnableWebSecurity
-// @RequiredArgsConstructor
-// public class SecurityConfig {
-
-//     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-//     private final AuthenticationProvider authProvider;
-
-//     @Bean
-//     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
-//     {
-//         return http
-//             .csrf(csrf -> 
-//                 csrf
-//                 .disable())
-//             .authorizeHttpRequests(authRequest ->
-//               authRequest
-//                 .requestMatchers("/auth/**").permitAll()
-//                 .anyRequest().authenticated()
-//                 )
-//             .sessionManagement(sessionManager->
-//                 sessionManager 
-//                   .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//             .authenticationProvider(authProvider)
-//             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-//             .build();
-            
-            
-//     }
-
-// }
 package com.example.pa.Config;
 
 import org.springframework.context.annotation.Bean;
@@ -78,8 +31,9 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Habilitar CORS
             .authorizeHttpRequests(authRequest ->
                 authRequest
-                    .requestMatchers("/auth/**").permitAll()
-                    .anyRequest().authenticated()
+                    .requestMatchers("/auth/**").authenticated()// Estas son las rutas publicas
+                    .requestMatchers("/admin/**").hasRole("ADMIN") // Solo accesible para usuarios con el rol "ADMIN"
+                    .anyRequest() .permitAll()// Los demás requieren autenticación
             )
             .sessionManagement(sessionManager ->
                 sessionManager
