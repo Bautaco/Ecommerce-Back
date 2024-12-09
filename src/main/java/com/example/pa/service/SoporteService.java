@@ -1,16 +1,18 @@
 package com.example.pa.service;
-import com.example.pa.model.EstadoConsulta;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.example.pa.controller.DTO.ConsultaDTO.ConsultaDTO;
 import com.example.pa.model.Consulta;
+import com.example.pa.model.EstadoConsulta;
 import com.example.pa.repository.ConsultaRepository;
 
 @Service

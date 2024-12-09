@@ -31,7 +31,7 @@ public class ProductoController {
     }
 
     // Crear un nuevo producto
-    @PostMapping("/crear")
+    @PostMapping
     public ResponseEntity<Producto> crearProducto(@RequestBody Producto producto) {
         if (producto.getPrecio() < 0) {
             return ResponseEntity.badRequest().body(null); // Respuesta de error
