@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-05T20:20:35-0300",
+    date = "2024-12-09T06:26:07-0300",
     comments = "version: 1.6.2, compiler: Eclipse JDT (IDE) 3.40.0.z20241112-1021, environment: Java 17.0.13 (Eclipse Adoptium)"
 )
 @Component
@@ -46,14 +46,14 @@ public class PedidosMapperImpl implements PedidosMapper {
 
         Pedidos pedidos = new Pedidos();
 
-        pedidos.setActivo( pedidosDTO.isActivo() );
         pedidos.setCliente( pedidosDTO.getCliente() );
-        pedidos.setEstado( pedidosDTO.getEstado() );
         pedidos.setId( pedidosDTO.getId() );
         List<Producto> list = pedidosDTO.getProducto();
         if ( list != null ) {
             pedidos.setProducto( new ArrayList<Producto>( list ) );
         }
+        pedidos.setEstado( pedidosDTO.getEstado() );
+        pedidos.setActivo( pedidosDTO.isActivo() );
 
         return pedidos;
     }
