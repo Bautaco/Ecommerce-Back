@@ -119,5 +119,22 @@ public class PedidosController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Pedido no encontrado
         }
     }
+
+      // Recuperar un pedido eliminado (revertir eliminación lógica)
+      @PutMapping("/{id}/recuperar")
+      public ResponseEntity<PedidosDTO> recuperarPedido(@PathVariable Long id) {
+          try {
+              Pedidos pedidoRecuperado = pedidosService.recuperarPedido(id);
+  
+              // Convertir el pedido recuperado a un PedidosDTO
+              PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoRecuperado);
+  
+              return ResponseEntity.ok(pedidoDTO);
+          } catch (RuntimeException e) {
+              return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Manejar pedido no encontrado
+          }
+      }
+
+
 }
 
