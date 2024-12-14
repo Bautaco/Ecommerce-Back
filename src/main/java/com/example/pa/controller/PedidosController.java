@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.pa.controller.DTO.PedidosDTO.PedidosDTO;
 import com.example.pa.controller.Mapper.PedidosMapper;
 import com.example.pa.model.Pedidos;
+import com.example.pa.model.Producto;
 import com.example.pa.service.PedidosService;
 
 @RestController
@@ -30,6 +31,25 @@ public class PedidosController {
 
     @Autowired
     private PedidosMapper pedidosMapper; // Inyectamos el mapper
+
+    // Crear un nuevo pedido
+    @PostMapping
+    public ResponseEntity<PedidosDTO> crearPedido(@RequestBody PedidosDTO pedidosDTO) {
+        try {
+            // Convertir el DTO a la entidad Pedidos
+            Pedidos pedido = pedidosMapper.toEntity(pedidosDTO);
+
+            // Crear el pedido usando el servicio
+            Pedidos pedidoCreado = pedidosService.crearPedidos(pedido.getId(), pedido.getProducto(), pedido.getCliente());
+
+            // Convertir el pedido creado a un DTO
+            PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoCreado);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(pedidoDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
 
     // Obtener todos los pedidos
     @GetMapping
@@ -72,24 +92,7 @@ public class PedidosController {
         }
     }
 
-    // Crear un nuevo pedido
-    @PostMapping
-    public ResponseEntity<PedidosDTO> crearPedido(@RequestBody PedidosDTO pedidosDTO) {
-        try {
-            // Convertir el DTO a la entidad Pedidos
-            Pedidos pedido = pedidosMapper.toEntity(pedidosDTO);
-
-            // Crear el pedido usando el servicio
-            Pedidos pedidoCreado = pedidosService.crearPedidos(pedido.getId(), pedido.getProducto(), pedido.getCliente());
-
-            // Convertir el pedido creado a un DTO
-            PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoCreado);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(pedidoDTO);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-    }
+    
 
     // Eliminar un producto de la lista de un pedido
     @DeleteMapping("/{id}/productos/{productoId}")
@@ -118,6 +121,33 @@ public class PedidosController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Pedido no encontrado
         }
+    }
+
+      // Recuperar un pedido eliminado (revertir eliminación lógica)
+      @PutMapping("/{id}/recuperar")
+      public ResponseEntity<PedidosDTO> recuperarPedido(@PathVariable Long id) {
+          try {
+              Pedidos pedidoRecuperado = pedidosService.recuperarPedido(id);
+  
+              // Convertir el pedido recuperado a un PedidosDTO
+              PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoRecuperado);
+  
+              return ResponseEntity.ok(pedidoDTO);
+          } catch (RuntimeException e) {
+              return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Manejar pedido no encontrado
+          }
+      }
+
+    // Agregar un producto
+    @PostMapping("/{id}/productos")
+        public ResponseEntity<PedidosDTO> agregarProducto(
+        @PathVariable Long id,
+        @RequestBody Producto producto) {
+    Pedidos pedidoActualizado = pedidosService.agregarProducto(id, producto);
+    PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoActualizado);
+    return ResponseEntity.ok(pedidoDTO);
+
+
     }
 }
 
