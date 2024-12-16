@@ -5,8 +5,12 @@ import java.time.LocalDateTime;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class AjusteInventario {
     @Id
     private Long id;
@@ -15,15 +19,6 @@ public class AjusteInventario {
     private int cantidad;
     private String razon;
     private LocalDateTime fecha;
-   
-    //Constructor
-    public AjusteInventario(Long id, Producto producto, int cantidad, String razon, LocalDateTime fecha) {
-        this.id = id;
-        this.producto = producto;
-        this.cantidad = cantidad;
-        this.razon = razon;
-        this.fecha = fecha;
-    }
 
     // getters y setters
     public Long getId() {

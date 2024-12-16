@@ -92,7 +92,26 @@ public class PedidosController {
         }
     }
 
-    
+
+    // Crear un nuevo pedido
+    @PostMapping
+    public ResponseEntity<PedidosDTO> crearPedido(@RequestBody PedidosDTO pedidosDTO) {
+        try {
+            // Convertir el DTO a la entidad Pedidos
+            Pedidos pedido = pedidosMapper.toEntity(pedidosDTO);
+
+            // Crear el pedido usando el servicio
+            Pedidos pedidoCreado = pedidosService.crearPedidos(pedido.getId(), pedido.getProducto(), pedido.getCliente());
+
+            // Convertir el pedido creado a un DTO
+            PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoCreado);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(pedidoDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
 
     // Eliminar un producto de la lista de un pedido
     @DeleteMapping("/{id}/productos/{productoId}")
@@ -111,6 +130,7 @@ public class PedidosController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Manejar pedido o producto no encontrado
         }
     }
+
 
     // Eliminar un pedido (eliminación lógica)
     @DeleteMapping("/{id}")
@@ -151,3 +171,15 @@ public class PedidosController {
     }
 }
 
+
+    // Eliminar un pedido (eliminación lógica)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarPedido(@PathVariable Long id) {
+        try {
+            pedidosService.eliminarPedidos(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // Respuesta sin contenido
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Pedido no encontrado
+        }
+    }
+}

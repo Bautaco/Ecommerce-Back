@@ -4,6 +4,9 @@ import com.example.pa.controller.DTO.CategoriaDTO.CategoriaDTO;
 import com.example.pa.controller.Mapper.CategoriaMapper;
 import com.example.pa.model.Categoria;
 import com.example.pa.repository.CategoriaRepository; // Importa el repositorio 'CategoriaRepository', que maneja la interacción con la base de datos
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired; // Importa la anotación '@Autowired' para la inyección de dependencias.
 import org.springframework.stereotype.Service; // Importa la anotación '@Service', que indica que esta clase es un servicio de la aplicación.
 
@@ -44,9 +47,17 @@ public class CategoriaService {
         Optional<Categoria> categoriaOpt = categoriaRepository.findById(id);
         if (categoriaOpt.isPresent()) {
             Categoria categoria = categoriaOpt.get();
-            categoriaRepository.save(categoria);
+                // Cambiar el estado de la categoría a "Inactiva"
+                categoria.setActivo(false);  // Suponiendo que "activo" es el atributo que indica si está activa o no
+                
+                // Guardar los cambios
+                categoriaRepository.save(categoria);
+            } else {
+                // Lógica en caso de que no se encuentre la categoría, si es necesario
+                throw new EntityNotFoundException("Categoría no encontrada");
+            }
         }
-    }
+        
     // Recuperacion de Categoria (Cambio de estado "Activa")
     public void recuperarCategoria(Long id) {
         Optional<Categoria> categoriaOpt = categoriaRepository.findById(id);
@@ -57,7 +68,7 @@ public class CategoriaService {
     }
 
     public List<CategoriaDTO> obtenerCategorias() {
-        List<Categoria> categorias = categoriaRepository.findByActivoFalse();
+        List<Categoria> categorias = categoriaRepository.findByActivoTrue();
         return categorias.stream().map(categoriaMapper::toDTO).toList();
     }
 

@@ -1,41 +1,53 @@
 package com.example.pa.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.pa.controller.DTO.ConsultaDTO.ConsultaDTO;
 import com.example.pa.model.Consulta;
+import com.example.pa.model.EstadoConsulta;
 import com.example.pa.service.SoporteService;
 
+import java.io.IOException;
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/soporte")
+@RequestMapping("api/soporte/consultas")
 public class SoporteController {
 
     @Autowired
     private SoporteService soporteService;
 
-    //Recibir y procesar una consulta de soporte utilizando un DTO que llega como un @ModelAttribute.
-    @PostMapping("/consultas")
-    public ResponseEntity<Map<String, Object>> crearConsulta(@ModelAttribute ConsultaDTO consultaDTO) {
-        try {
-            Consulta consulta = soporteService.crearConsulta(consultaDTO);
-            Map<String, Object> respuesta = new HashMap<>();
-            respuesta.put("mensaje", "Consulta recibida");
-            respuesta.put("numeroConsulta", consulta.getId());
-            return ResponseEntity.ok(respuesta);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+    // POST para crear una consulta
+    @PostMapping
+    public ResponseEntity<Consulta> crearConsulta(
+            @RequestParam("descripcion") String descripcion,
+            @RequestParam("archivos") List<MultipartFile> archivos) throws IOException {
+
+        ConsultaDTO consultaDTO = new ConsultaDTO();
+        consultaDTO.setDescripcion(descripcion);
+        consultaDTO.setArchivos(archivos);
+
+        Consulta consultaCreada = soporteService.crearConsulta(consultaDTO);
+        return ResponseEntity.ok(consultaCreada);
+    }
+
+    // PUT para cambiar el estado de una consulta
+    @PutMapping("/{consultaId}/estado")
+    public ResponseEntity<Consulta> cambiarEstadoConsulta(
+            @PathVariable Long consultaId,
+            @RequestBody EstadoConsulta nuevoEstado) {
+
+        Consulta consultaActualizada = soporteService.cambiarEstadoConsulta(consultaId, nuevoEstado);
+        return ResponseEntity.ok(consultaActualizada);
+    }
+
+    // GET para obtener todas las consultas
+    @GetMapping
+    public ResponseEntity<List<Consulta>> obtenerTodasLasConsultas() {
+        List<Consulta> consultas = soporteService.obtenerTodasLasConsultas();
+        return ResponseEntity.ok(consultas);
     }
 }

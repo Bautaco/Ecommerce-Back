@@ -1,6 +1,11 @@
 package com.example.pa.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+
 import java.time.LocalDate;
 
 @Entity
@@ -12,11 +17,16 @@ public class Promocion {
 
     private String nombre;
 
+    @Min(value = 0, message = "El porcentaje de descuento debe ser al menos 0")
+    @Max(value = 100, message = "El porcentaje de descuento no puede superar 100")
     private double porcentajeDescuento; // Descuento en porcentaje (0 - 100)
 
+    @NotNull(message = "La fecha de inicio no puede ser nula")
+    @PastOrPresent(message = "La fecha de inicio no puede ser futura")
     @Column(columnDefinition = "DATE")
     private LocalDate fechaInicio;
 
+    @NotNull(message = "La fecha de fin no puede ser nula")
     @Column(columnDefinition = "DATE")
     private LocalDate fechaFin;
 
