@@ -88,9 +88,15 @@ public class PedidosService {
         }
     }
 
-
-    public List<Pedidos> obtenerHistorialPedidos(Long clienteId) {
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerHistorialPedidos'");
+    public Pedidos recuperarPedido(Long id) {
+        Optional<Pedidos> compraOpt = pedidosRepository.findById(id);
+        if (compraOpt.isPresent()) {
+            Pedidos compra = compraOpt.get();
+            compra.setActivo(true); // Revertir la eliminación lógica
+            return pedidosRepository.save(compra); // Guardar los cambios y devolver la entidad actualizada
+        } else {
+            throw new RuntimeException("Pedido no encontrado con ID: " + id);
+        }
     }
     
 
