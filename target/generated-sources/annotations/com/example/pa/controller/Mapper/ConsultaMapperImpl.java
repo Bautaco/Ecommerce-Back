@@ -3,15 +3,12 @@ package com.example.pa.controller.Mapper;
 import com.example.pa.controller.DTO.ConsultaDTO.ConsultaDTO;
 import com.example.pa.model.Consulta;
 import com.example.pa.model.EstadoConsulta;
-import java.time.LocalDateTime;
-import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-09T06:26:07-0300",
+    date = "2024-12-16T11:16:53-0300",
     comments = "version: 1.6.2, compiler: Eclipse JDT (IDE) 3.40.0.z20241112-1021, environment: Java 17.0.13 (Eclipse Adoptium)"
 )
 @Component
@@ -23,16 +20,11 @@ public class ConsultaMapperImpl implements ConsultaMapper {
             return null;
         }
 
-        String descripcion = null;
+        Consulta consulta = new Consulta();
 
-        descripcion = ConsultaDTO.getDescripcion();
+        consulta.setDescripcion( ConsultaDTO.getDescripcion() );
 
-        EstadoConsulta estado = EstadoConsulta.valueOf(dto.getEstado().toUpperCase());
-        Long id = null;
-        LocalDateTime fechaEnvio = null;
-        List<String> archivosAdjuntos = null;
-
-        Consulta consulta = new Consulta( id, descripcion, fechaEnvio, estado, archivosAdjuntos );
+        consulta.setEstado( EstadoConsulta.valueOf(dto.getEstado().toUpperCase()) );
 
         return consulta;
     }
@@ -43,14 +35,11 @@ public class ConsultaMapperImpl implements ConsultaMapper {
             return null;
         }
 
-        String descripcion = null;
+        ConsultaDTO consultaDTO = new ConsultaDTO();
 
-        descripcion = Consulta.getDescripcion();
+        consultaDTO.setDescripcion( Consulta.getDescripcion() );
 
-        EstadoConsulta estado = consulta.getEstado().toString();
-        List<MultipartFile> archivos = null;
-
-        ConsultaDTO consultaDTO = new ConsultaDTO( descripcion, estado, archivos );
+        consultaDTO.setEstado( consulta.getEstado().toString() );
 
         return consultaDTO;
     }

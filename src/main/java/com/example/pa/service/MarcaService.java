@@ -55,7 +55,7 @@ public class MarcaService {
     }
 
     public List<MarcaDTO> obtenerMarcas() {
-        List<Marca> marcas = marcaRepository.findByActivoFalse();
+        List<Marca> marcas = marcaRepository.findByActivoTrue();
         return marcas.stream()
                      .map(marcaMapper::toDTO)
                      .toList();
