@@ -22,18 +22,24 @@ public class PedidosMapperImpl implements PedidosMapper {
             return null;
         }
 
-        PedidosDTO pedidosDTO = new PedidosDTO();
+        boolean activo = false;
+        long cliente = 0L;
+        Pedidos.Estado estado = null;
+        long id = 0L;
+        List<Producto> producto = null;
 
-        pedidosDTO.setActivo( pedidos.isActivo() );
-        pedidosDTO.setCliente( pedidos.getCliente() );
-        pedidosDTO.setEstado( pedidos.getEstado() );
+        activo = pedidos.isActivo();
+        cliente = pedidos.getCliente();
+        estado = pedidos.getEstado();
         if ( pedidos.getId() != null ) {
-            pedidosDTO.setId( pedidos.getId() );
+            id = pedidos.getId();
         }
         List<Producto> list = pedidos.getProducto();
         if ( list != null ) {
-            pedidosDTO.setProducto( new ArrayList<Producto>( list ) );
+            producto = new ArrayList<Producto>( list );
         }
+
+        PedidosDTO pedidosDTO = new PedidosDTO( id, producto, estado, activo, cliente );
 
         return pedidosDTO;
     }
