@@ -69,5 +69,9 @@ public class PromocionService {
     public List<Promocion> obtenerPromociones() {
         return promocionRepository.findAll();  // Devolverá una lista vacía si no hay promociones
     }
+
+    public List<Promocion> obtenerPromociones() {
+        return promocionRepository.findAll();  // Devolverá una lista vacía si no hay promociones
+    }
     
 }

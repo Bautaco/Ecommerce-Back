@@ -9,17 +9,12 @@ import java.util.stream.Collectors;
 import com.example.pa.model.Producto;
 import com.example.pa.model.Stock;
 import com.example.pa.repository.ProductoRepository;
-import com.example.pa.repository.StockRepository;
-
-import jakarta.persistence.EntityNotFoundException;
-
 @Service
 public class StockService {
      
     
     @Autowired
     private ProductoRepository productoRepository;
-    private StockRepository stockRepository;
 
     // Método que devuelve productos con stock bajo
     public List<Producto> obtenerProductosConStockBajo() {
@@ -56,4 +51,5 @@ public class StockService {
             throw new EntityNotFoundException("Producto no encontrado");
         }
     }
+
 }
