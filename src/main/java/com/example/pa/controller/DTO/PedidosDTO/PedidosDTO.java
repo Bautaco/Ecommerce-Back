@@ -29,14 +29,7 @@ public class PedidosDTO {
     }
 
     public double getTotal() {
-        return producto.stream()
-            .mapToDouble(p -> {
-                if (p.getStock() != null) {
-                    return p.getPrecio() * p.getStock().getCantidad();
-                }
-                return 0; // Si no hay stock asociado, el total será 0 para ese producto
-            })
-            .sum();
+        return producto.stream().mapToDouble(p -> p.getPrecio() * p.getStock()).sum();
     }
 }
     

@@ -41,9 +41,10 @@ public class Producto {
 
     private boolean activo=true; //Indicador del Producto (Activo/Inactivo)
 
-    @OneToOne(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Stock stock;
+    private int stock;
 
+    @Min(value = 0, message = "El umbral de stock bajo debe ser mayor o igual a 0.")
+    private int UmbralStockBajo;
 
     //Almacenamiento de URLs de las imágenes del producto
     @ElementCollection

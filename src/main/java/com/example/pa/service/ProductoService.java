@@ -3,7 +3,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.pa.model.Producto;
-import com.example.pa.model.Stock;
 import com.example.pa.repository.ProductoRepository;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -94,17 +93,15 @@ public class ProductoService {
         }
     }
 
-    // Verificación de Stock Bajo
-    public void verificarStockBajo(Producto producto) {
-        // Obtiene el objeto Stock asociado al Producto
-        Stock stock = producto.getStock();
-
-        // Verifica si el stock no es nulo y está por debajo del umbral
-        if (stock != null && stock.getCantidad() < stock.getUmbralStockBajo()) {
-            // Generador de alerta
-            generarAlertaStockBajo(producto); // Llama al método para generar alerta
+    //Verificacion de Stock Bajo
+    public void VerificarStockBajo(Producto producto){
+        //Si el stck esta por debajo del Umbral
+        if (producto.getStock() < producto.getUmbralStockBajo()){
+            //Generador de Alerta
+            generarAlertaStockBajo(producto);// Llama al método para generar alerta
         }
     }
+
 
 
     // Método privado para generar una alerta de stock bajo

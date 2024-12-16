@@ -55,20 +55,9 @@ public class PromocionService {
      * Calcular el total del carrito sin aplicar descuentos.
      */
     private double calcularTotalCarrito(List<Producto> productos) {
-        return productos.stream()
-            .mapToDouble(p -> {
-                if (p.getStock() != null) { 
-                    return p.getPrecio() * p.getStock().getCantidad();
-                }
-                return 0; // Si no hay stock asociado, el valor es 0 para ese producto
-            })
-            .sum();
+        return productos.stream().mapToDouble(p -> p.getPrecio() * p.getStock()).sum();
     }
 
-
-    public List<Promocion> obtenerPromociones() {
-        return promocionRepository.findAll();  // Devolverá una lista vacía si no hay promociones
-    }
 
     public List<Promocion> obtenerPromociones() {
         return promocionRepository.findAll();  // Devolverá una lista vacía si no hay promociones
