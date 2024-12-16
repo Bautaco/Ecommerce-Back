@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-16T11:24:11-0300",
+    date = "2024-12-16T12:23:49-0300",
     comments = "version: 1.6.2, compiler: Eclipse JDT (IDE) 3.40.0.z20241112-1021, environment: Java 17.0.13 (Eclipse Adoptium)"
 )
 @Component
@@ -22,24 +22,18 @@ public class PedidosMapperImpl implements PedidosMapper {
             return null;
         }
 
-        boolean activo = false;
-        long cliente = 0L;
-        Pedidos.Estado estado = null;
-        long id = 0L;
-        List<Producto> producto = null;
+        PedidosDTO pedidosDTO = new PedidosDTO();
 
-        activo = pedidos.isActivo();
-        cliente = pedidos.getCliente();
-        estado = pedidos.getEstado();
+        pedidosDTO.setActivo( pedidos.isActivo() );
+        pedidosDTO.setCliente( pedidos.getCliente() );
+        pedidosDTO.setEstado( pedidos.getEstado() );
         if ( pedidos.getId() != null ) {
-            id = pedidos.getId();
+            pedidosDTO.setId( pedidos.getId() );
         }
         List<Producto> list = pedidos.getProducto();
         if ( list != null ) {
-            producto = new ArrayList<Producto>( list );
+            pedidosDTO.setProducto( new ArrayList<Producto>( list ) );
         }
-
-        PedidosDTO pedidosDTO = new PedidosDTO( id, producto, estado, activo, cliente );
 
         return pedidosDTO;
     }

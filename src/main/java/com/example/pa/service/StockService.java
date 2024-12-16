@@ -7,31 +7,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.example.pa.model.Producto;
-import com.example.pa.model.Stock;
 import com.example.pa.repository.ProductoRepository;
-import com.example.pa.repository.StockRepository;
-
-import jakarta.persistence.EntityNotFoundException;
-
 @Service
 public class StockService {
      
     
     @Autowired
     private ProductoRepository productoRepository;
-    private StockRepository stockRepository;
+
 
     // Método que devuelve productos con stock bajo
     public List<Producto> obtenerProductosConStockBajo() {
         return productoRepository.findAll()
             .stream()
-            .filter(producto -> {
-                Stock stock = producto.getStock();
-                return stock != null && stock.getCantidad() < stock.getUmbralStockBajo();
-            })
+            .filter(producto -> producto.getStock() < producto.getUmbralStockBajo())
             .collect(Collectors.toList());
-    }
-    
+        }
 
      // Método que verifica los niveles de stock y envía alertas
      public void verificarStock() {
@@ -46,14 +37,8 @@ public class StockService {
         System.out.println("Alerta: El stock de " + producto.getNombre() + " está bajo. Stock actual: " + producto.getStock());
     }
 
-    public void registrarAjusteStock(Long productoId, int cantidadAjuste) {
-        // Lógica para ajustar el stock de un producto
-        Stock stock = stockRepository.findByProductoId(productoId);
-        if (stock != null) {
-            stock.setCantidad(stock.getCantidad() + cantidadAjuste); // Ajuste del stock
-            stockRepository.save(stock); // Guardar el cambio en la base de datos
-        } else {
-            throw new EntityNotFoundException("Producto no encontrado");
-        }
+    public void registrarAjusteStock(Long productoId, Integer cantidadAjustada, String razonAjuste) {
+        throw new UnsupportedOperationException("Unimplemented method 'registrarAjusteStock'");
     }
+
 }

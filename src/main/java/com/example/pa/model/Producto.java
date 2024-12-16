@@ -2,7 +2,6 @@ package com.example.pa.model;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -11,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,11 +37,12 @@ public class Producto {
 
     private String sku; //Codigo Unico de referencia para el Producto
 
+    private int stock;
+
     private boolean activo=true; //Indicador del Producto (Activo/Inactivo)
 
-    @OneToOne(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Stock stock;
-
+    @Min(value = 0, message = "El umbral de stock bajo debe ser mayor o igual a 0.")
+    private int UmbralStockBajo;
 
     //Almacenamiento de URLs de las imágenes del producto
     @ElementCollection
