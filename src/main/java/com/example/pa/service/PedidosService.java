@@ -7,7 +7,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import com.example.pa.User.User;
+=======
+>>>>>>> main
 import com.example.pa.model.Pedidos;
 import com.example.pa.model.Pedidos.Estado;
 import com.example.pa.model.Producto;
@@ -15,9 +18,12 @@ import com.example.pa.repository.PedidosRepository;
 
 
 @Service
+<<<<<<< HEAD
 
 
  
+=======
+>>>>>>> main
 public class PedidosService {
     @Autowired
     private PedidosRepository pedidosRepository;
@@ -53,7 +59,11 @@ public class PedidosService {
         return pedidosRepository.save(compra); // Guardar la compra actualizada
     }
     // crear compra
+<<<<<<< HEAD
     public Pedidos crearPedidos(long id,List<Producto>listaProducto,User cliente)
+=======
+    public Pedidos crearPedidos(long id,List<Producto>listaProducto,long cliente)
+>>>>>>> main
     {
         Pedidos compra = new Pedidos (id,listaProducto,cliente);
         return pedidosRepository.save(compra);
@@ -92,10 +102,22 @@ public class PedidosService {
         }
     }
 
+<<<<<<< HEAD
 
     public List<Pedidos> obtenerHistorialPedidos(Long clienteId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'obtenerHistorialPedidos'");
+=======
+    public Pedidos recuperarPedido(Long id) {
+        Optional<Pedidos> compraOpt = pedidosRepository.findById(id);
+        if (compraOpt.isPresent()) {
+            Pedidos compra = compraOpt.get();
+            compra.setActivo(true); // Revertir la eliminación lógica
+            return pedidosRepository.save(compra); // Guardar los cambios y devolver la entidad actualizada
+        } else {
+            throw new RuntimeException("Pedido no encontrado con ID: " + id);
+        }
+>>>>>>> main
     }
     
 

@@ -15,4 +15,8 @@ public interface PedidosRepository extends JpaRepository<Pedidos, Long> {
     //Categorías Inactivas
     List<Pedidos> findByActivoFalse();
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main

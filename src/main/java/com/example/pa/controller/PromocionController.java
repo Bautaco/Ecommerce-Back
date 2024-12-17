@@ -1,10 +1,16 @@
 package com.example.pa.controller;
 
+
 import com.example.pa.model.Promocion;
 import com.example.pa.service.PromocionService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,9 +23,10 @@ public class PromocionController {
 
     // Crear una nueva promoción
     @PostMapping 
-    public Promocion crearPromocion(@RequestBody Promocion promocion) {
+    public Promocion crearPromocion(@Valid @RequestBody Promocion promocion) {
         return promocionService.crearPromocion(promocion);
     }
+
 
     // Listar todas las promociones activas
     @GetMapping
@@ -29,14 +36,18 @@ public class PromocionController {
 
     // Obtener una promoción específica por ID
     @GetMapping("/{id}")
-    public Promocion obtenerPromocion(@PathVariable Long id) {
-        Optional<Promocion> promocion = promocionService.obtenerPromocionPorId(id);
-        if (promocion.isPresent()) {
-            return promocion.get();
-        } else {
-            throw new RuntimeException("Promoción no encontrada con el id " + id);
+    public ResponseEntity<List<Promocion>> obtenerPromociones() {
+        List<Promocion> promociones = promocionService.obtenerPromociones();
+
+        // Si la lista está vacía, devolvemos una respuesta con código 200 y lista vacía
+        if (promociones.isEmpty()) {
+            return ResponseEntity.ok().body(Collections.emptyList());
         }
+
+        // Si hay promociones, las devolvemos normalmente
+        return ResponseEntity.ok(promociones);
     }
+
 
     // Actualizar una promoción existente por ID
     @PutMapping("/{id}")

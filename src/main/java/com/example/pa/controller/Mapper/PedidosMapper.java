@@ -11,4 +11,8 @@ public interface PedidosMapper {
     PedidosDTO toDTO(Pedidos pedidos);
 
     Pedidos toEntity(PedidosDTO pedidosDTO);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main

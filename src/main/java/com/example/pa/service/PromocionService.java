@@ -31,20 +31,15 @@ public class PromocionService {
         return promocionRepository.findByActivaTrueAndFechaInicioLessThanEqualAndFechaFinGreaterThanEqual(hoy, hoy);
     }
 
-    /**
-     * Calcular el descuento aplicado al carrito.
-     */
     public double calcularDescuentoCarrito(List<Producto> productos) {
-        LocalDate hoy = LocalDate.now();
-        List<Promocion> promocionesActivas = listarPromocionesActivas();
-
-        if (promocionesActivas.isEmpty()) return calcularTotalCarrito(productos);
-
-        Promocion promocion = promocionesActivas.get(0); // Consideramos la primera promoción válida
         double total = calcularTotalCarrito(productos);
-
-        return total - (total * (promocion.getPorcentajeDescuento() / 100));
+        return promocionRepository.findByActivaTrueAndFechaInicioLessThanEqualAndFechaFinGreaterThanEqual(LocalDate.now(), null)
+            .stream()
+            .findFirst()
+            .map(promocion -> total - (total * (promocion.getPorcentajeDescuento() / 100)))
+            .orElse(total);
     }
+    
 
         // Obtener una promoción por ID.
         public Optional<Promocion> obtenerPromocionPorId(Long id) {
@@ -61,6 +56,11 @@ public class PromocionService {
      */
     private double calcularTotalCarrito(List<Producto> productos) {
         return productos.stream().mapToDouble(p -> p.getPrecio() * p.getStock()).sum();
+    }
+
+
+    public List<Promocion> obtenerPromociones() {
+        return promocionRepository.findAll();  // Devolverá una lista vacía si no hay promociones
     }
     
 }

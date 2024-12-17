@@ -8,13 +8,12 @@ import java.util.stream.Collectors;
 
 import com.example.pa.model.Producto;
 import com.example.pa.repository.ProductoRepository;
-
 @Service
 public class StockService {
      
     
     @Autowired
-    private static ProductoRepository productoRepository;
+    private ProductoRepository productoRepository;
 
     // Método que devuelve productos con stock bajo
     public List<Producto> obtenerProductosConStockBajo() {
@@ -23,6 +22,7 @@ public class StockService {
             .filter(producto -> producto.getStock() < producto.getUmbralStockBajo())
             .collect(Collectors.toList());
         }
+    
 
      // Método que verifica los niveles de stock y envía alertas
      public void verificarStock() {
@@ -38,7 +38,7 @@ public class StockService {
     }
 
     public void registrarAjusteStock(Long productoId, Integer cantidadAjustada, String razonAjuste) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'registrarAjusteStock'");
     }
+
 }

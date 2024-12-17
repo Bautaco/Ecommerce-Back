@@ -2,6 +2,9 @@ package com.example.pa.controller;
 
 import com.example.pa.controller.DTO.MarcaDTO.MarcaDTO;
 import com.example.pa.service.MarcaService;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +47,19 @@ public class MarcaController {
     public ResponseEntity<List<MarcaDTO>> obtenerMarcas() {
         List<MarcaDTO> marcas = marcaService.obtenerMarcas();
         return new ResponseEntity<>(marcas, HttpStatus.OK);
+    }
+
+    // Recuperar una marca previamente eliminada
+    @PutMapping("/recuperar/{id}")
+    public ResponseEntity<Void> recuperarMarca(@PathVariable Long id) {
+        try {
+            marcaService.recuperarMarca(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IllegalStateException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Por ejemplo, si la marca ya está activa
+        }
     }
 
 }

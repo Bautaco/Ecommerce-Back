@@ -23,6 +23,7 @@
 hs_err_pid*
 replay_pid*
 <<<<<<< HEAD
+<<<<<<< HEAD
 target/generated-sources/annotations/com/example/pa/controller/Mapper/PedidosMapperImpl.java
 target/generated-sources/annotations/com/example/pa/controller/Mapper/MarcaMapperImpl.java
 target/generated-sources/annotations/com/example/pa/controller/Mapper/CategoriaMapperImpl.java
@@ -31,4 +32,7 @@ target/generated-sources/annotations/com/example/pa/controller/Mapper/CategoriaM
 target/generated-sources/annotations/com/example/pa/controller/Mapper/ConsultaMapperImpl.java
 target/generated-sources/annotations/com/example/pa/controller/Mapper/MarcaMapperImpl.java
 target/generated-sources/annotations/com/example/pa/controller/Mapper/UserMapperImpl.java
+>>>>>>> main
+=======
+target/generated-sources/annotations/com/example/pa/controller/Mapper/PedidosMapperImpl.java
 >>>>>>> main
