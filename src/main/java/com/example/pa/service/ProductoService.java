@@ -2,10 +2,12 @@ package com.example.pa.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.pa.Excepciones.ProductoNotFoundException;
 import com.example.pa.model.Producto;
 import com.example.pa.repository.ProductoRepository;
 import jakarta.persistence.EntityNotFoundException;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,8 @@ public class ProductoService {
     @Autowired
     // Repositorio para manejar productos
     private ProductoRepository productoRepository;
+
+    private static final Logger log = LoggerFactory.getLogger(ProductoService.class);
 
     @Autowired
     private StockService stockService;
@@ -68,17 +72,24 @@ public class ProductoService {
         }
     }
     
-    //Recuperacion de Producto (Cambio de estado a "Activo")
+    // Recuperación de Producto (Cambio de estado a "Activo")
     public Producto recuperarProducto(Long id) {
-        Optional<Producto> optionalProducto = productoRepository.findById(id);
-        if (optionalProducto.isPresent()) {
-            Producto producto = optionalProducto.get();
-            producto.setActivo(true);  // Cambia Estado (Activo)
-            return productoRepository.save(producto);// Guarda el producto actualizado
+        // Busca el producto por ID
+        Producto producto = productoRepository.findById(id)
+            .orElseThrow(() -> new ProductoNotFoundException("Producto con ID " + id + " no encontrado"));
+
+        // Cambia el estado a "Activo" solo si no está activo
+        if (!producto.isActivo()) {
+            producto.setActivo(true);  // Cambiar estado a activo
+            productoRepository.save(producto); // Guardar el producto actualizado
+            log.info("Producto con ID {} ha sido reactivado", id); // Log de recuperación exitosa
         } else {
-            throw new RuntimeException("Producto no encontrado");
+            log.warn("El producto con ID {} ya estaba activo", id); // Log de advertencia
         }
+
+        return producto;
     }
+
 
     //Listado de Productos Activos(True) e Inactivos(false)
     public List<Producto> listarTodosLosProductos() {

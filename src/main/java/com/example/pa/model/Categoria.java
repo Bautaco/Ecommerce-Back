@@ -5,8 +5,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Categoria {
 
     @Id
@@ -16,43 +24,7 @@ public class Categoria {
     private String nombre;
 
     private boolean activo = true; //Indicador de Categoria (Activa/Inactiva)
-
-     // Constructor sin argumentos (requerido por JPA y Jackson)
-     public Categoria() {}
-
-    //Contructor
-    public Categoria(Long id, String nombre, boolean activo) {
-        this.id = id;
-        this.nombre = nombre;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-    }
-
-    //Getter y Setter
-
-    
+     
 
 }
 

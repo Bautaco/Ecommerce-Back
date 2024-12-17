@@ -3,6 +3,7 @@ package com.example.pa.controller.DTO.ProductoDTO;
 import java.util.List;
 
 import com.example.pa.controller.DTO.VarianteDTO.VarianteDTO;
+import com.example.pa.model.Categoria;
 
 import jakarta.validation.constraints.Min;
 import lombok.Data;
@@ -149,5 +150,9 @@ public class ProductoDTO {
 
     public void setVariantes(List<VarianteDTO> variantes) {
         this.variantes = variantes;
+    }
+
+    public Categoria getCategoria() {
+        throw new UnsupportedOperationException("Unimplemented method 'getCategoria'");
     }
 }

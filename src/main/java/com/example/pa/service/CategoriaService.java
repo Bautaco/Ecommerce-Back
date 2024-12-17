@@ -59,13 +59,28 @@ public class CategoriaService {
         }
         
     // Recuperacion de Categoria (Cambio de estado "Activa")
+    // Recuperación de una Categoría (Cambio de estado a "Activa")
     public void recuperarCategoria(Long id) {
         Optional<Categoria> categoriaOpt = categoriaRepository.findById(id);
         if (categoriaOpt.isPresent()) {
             Categoria categoria = categoriaOpt.get();
-            categoriaRepository.save(categoria);
+
+            // Verifica si la categoría ya está activa
+            if (!categoria.isActivo()) {
+                // Cambiar el estado de la categoría a "Activa"
+                categoria.setActivo(true);
+
+                // Guardar los cambios
+                categoriaRepository.save(categoria);
+            } else {
+                throw new IllegalStateException("La categoría ya está activa.");
+            }
+        } else {
+            // Lógica en caso de que no se encuentre la categoría
+            throw new EntityNotFoundException("Categoría no encontrada");
         }
     }
+
 
     public List<CategoriaDTO> obtenerCategorias() {
         List<Categoria> categorias = categoriaRepository.findByActivoTrue();

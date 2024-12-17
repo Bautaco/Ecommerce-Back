@@ -4,6 +4,9 @@ import com.example.pa.controller.DTO.MarcaDTO.MarcaDTO;
 import com.example.pa.controller.Mapper.MarcaMapper;
 import com.example.pa.model.Marca;
 import com.example.pa.repository.MarcaRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,14 +48,23 @@ public class MarcaService {
         }
     }
    
-    public void recuperarMarca(Long id) {
+        public void recuperarMarca(Long id) {
         Optional<Marca> marcaOpt = marcaRepository.findById(id);
         if (marcaOpt.isPresent()) {
             Marca marca = marcaOpt.get();
-            marca.setActivo(false);  // Recuperación
-            marcaRepository.save(marca);
+            
+            // Cambiar el estado de la marca a "Activa"
+            if (!marca.isActivo()) {  // Solo si está inactiva
+                marca.setActivo(true); 
+                marcaRepository.save(marca);  // Guardar los cambios
+            } else {
+                throw new IllegalStateException("La marca ya está activa.");
+            }
+        } else {
+            throw new EntityNotFoundException("Marca no encontrada.");
         }
     }
+
 
     public List<MarcaDTO> obtenerMarcas() {
         List<Marca> marcas = marcaRepository.findByActivoTrue();

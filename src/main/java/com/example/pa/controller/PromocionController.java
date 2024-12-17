@@ -1,6 +1,6 @@
 package com.example.pa.controller;
 
-import com.example.pa.Excepciones.PromocionNotFoundException;
+
 import com.example.pa.model.Promocion;
 import com.example.pa.service.PromocionService;
 
