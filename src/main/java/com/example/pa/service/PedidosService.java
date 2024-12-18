@@ -19,7 +19,7 @@ public class PedidosService {
     private PedidosRepository pedidosRepository;
     
     public  List<Pedidos> findAll() {
-        return pedidosRepository.findAll();
+        return pedidosRepository.findByActivoTrue();
     }
     
 
@@ -48,21 +48,25 @@ public class PedidosService {
         compra.eliminarProducto(productoId); // Eliminar el producto por ID
         return pedidosRepository.save(compra); // Guardar la compra actualizada
     }
+
     // crear compra
     public Pedidos crearPedidos(long id,List<Producto>listaProducto,long cliente)
     {
         Pedidos compra = new Pedidos (id,listaProducto,cliente);
         return pedidosRepository.save(compra);
     }
+
+
     //Eliminar Pedido
     public void eliminarPedidos(long id){
-        Optional<Pedidos> compraOpt = pedidosRepository.findById(id);
-        if (compraOpt.isPresent()){
-            Pedidos compra= compraOpt.get();
-            compra.setActivo(false); //eliminacion loguica
+    Optional<Pedidos> compraOpt = pedidosRepository.findById(id);
+    if (compraOpt.isPresent()){
+        Pedidos compra = compraOpt.get();
+        compra.setActivo(false); // Eliminación lógica: marca el pedido como inactivo
+        pedidosRepository.save(compra); // Asegúrate de guardar los cambios en la base de datos
         }
-        
     }
+
 
     public Pedidos actualizarEstadoPedido(Long id, String nuevoEstado) {
         // Buscar el pedido por ID

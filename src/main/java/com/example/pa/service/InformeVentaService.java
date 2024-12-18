@@ -19,7 +19,7 @@ public class InformeVentaService {
         List<InformeVenta> informes = informeVentasRepository.findByFechaInicioBetween(fechaInicio, fechaFin);
         double ventasTotales = informes.stream().mapToDouble(InformeVenta::getVentasTotales).sum();
         int numeroPedidos = informes.stream().mapToInt(InformeVenta::getNumeroPedidos).sum();
-        String productosMasVendidos = "TODO: Productos más vendidos"; // Implementar lógica
+        String productosMasVendidos = "Camiseta Básica"; // Implementar lógica
 
         return new InformeVentaDTO(fechaInicio, fechaFin, ventasTotales, numeroPedidos, productosMasVendidos);
     }
