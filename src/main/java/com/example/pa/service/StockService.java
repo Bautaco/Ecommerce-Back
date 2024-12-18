@@ -38,7 +38,28 @@ public class StockService {
     }
 
     public void registrarAjusteStock(Long productoId, Integer cantidadAjustada, String razonAjuste) {
-        throw new UnsupportedOperationException("Unimplemented method 'registrarAjusteStock'");
+        // Verificar si el producto existe
+        Producto producto = productoRepository.findById(productoId)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+    
+        // Realizar el ajuste de stock (sumar o restar la cantidad ajustada)
+        int nuevoStock = producto.getStock() + cantidadAjustada;
+        
+        // Validar que el stock no sea negativo
+        if (nuevoStock < 0) {
+            throw new IllegalArgumentException("El ajuste de stock no puede dejar el inventario en números negativos.");
+        }
+    
+        // Actualizar el stock del producto
+        producto.setStock(nuevoStock);
+    
+        // Persistir el producto con el nuevo stock
+        productoRepository.save(producto);
+    
+        // Aquí puedes registrar la razón del ajuste si deseas, por ejemplo, en una entidad separada de "HistorialAjustesStock"
+        // Esto puede ayudar a llevar un control detallado de por qué se realizaron los ajustes.
+    
+        System.out.println("Ajuste de stock realizado en producto: " + producto.getNombre() + ". Razón: " + razonAjuste);
     }
-
+    
 }
