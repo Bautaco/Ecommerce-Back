@@ -41,6 +41,20 @@ public class PedidosService {
         compra.agregarProducto(producto); // Agregar el producto
         return pedidosRepository.save(compra); // Guardar la compra actualizada
     }
+public Pedidos agregarProductos(Long pedidoId, List<Producto> productos) {
+    Pedidos pedido = findById(pedidoId);
+    if (pedido == null) {
+        throw new RuntimeException("Pedido no encontrado");
+    }
+
+    // Agregar cada producto a la lista de productos del pedido
+    for (Producto producto : productos) {
+        pedido.getProductos().add(producto);
+    }
+
+    // Guardar el pedido actualizado
+    return pedidosRepository.save(pedido);
+}
 
     // Eliminar un producto de una compra
     public Pedidos eliminarProducto(Long compraId, Long productoId) {

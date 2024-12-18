@@ -75,22 +75,24 @@ public class PedidosController {
 
     // Actualizar el estado de un pedido
     @PutMapping("/{id}/estado")
-    public ResponseEntity<PedidosDTO> actualizarEstadoPedido(
+    // Agregar productos a un pedido
+    @PostMapping("/{id}/productos")
+    public ResponseEntity<PedidosDTO> agregarProductos(
             @PathVariable Long id,
-            @RequestParam String nuevoEstado) {
+            @RequestBody List<Producto> productos) {
         try {
-            // Llamar al servicio para actualizar el estado del pedido
-            Pedidos pedidoActualizado = pedidosService.actualizarEstadoPedido(id, nuevoEstado);
+            // Llamar al servicio para agregar los productos
+            Pedidos pedidoActualizado = pedidosService.agregarProductos(id, productos);
 
             // Convertir el pedido actualizado a un PedidosDTO
             PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoActualizado);
 
-            // Retornar la respuesta con el DTO
             return ResponseEntity.ok(pedidoDTO);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Manejar pedido no encontrado
         }
     }
+
 
 
     // Eliminar un producto de la lista de un pedido
