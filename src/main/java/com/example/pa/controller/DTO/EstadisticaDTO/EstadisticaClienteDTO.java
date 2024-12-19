@@ -1,30 +1,22 @@
 package com.example.pa.controller.DTO.EstadisticaDTO;
 
+import java.time.LocalDate;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class EstadisticaClienteDTO {
     
-    private Long clienteId;
-    private int frecuenciaCompra;
-    private double valorPromedioPedido;
+     private Long id;
+    private LocalDate fechaCompra;
+    private Integer frecuenciaCompra;
     private String productosFavoritos;
-    
-    //Constructor
-    public EstadisticaClienteDTO(Long clienteId, int frecuenciaCompra, double valorPromedioPedido,
-            String productosFavoritos) {
-        this.clienteId = clienteId;
-        this.frecuenciaCompra = frecuenciaCompra;
-        this.valorPromedioPedido = valorPromedioPedido;
-        this.productosFavoritos = productosFavoritos;
-    }
-
-    public EstadisticaClienteDTO() {
-        
-    }
-
-    
+    private Double valorPromedioPedido;   
 
 }
