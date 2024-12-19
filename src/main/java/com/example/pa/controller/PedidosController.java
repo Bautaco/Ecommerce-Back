@@ -29,21 +29,18 @@ public class PedidosController {
     @Autowired
     private PedidosService pedidosService;
 
-    @Autowired
-    private PedidosMapper pedidosMapper; // Inyectamos el mapper
-
     // Crear un nuevo pedido
     @PostMapping
     public ResponseEntity<PedidosDTO> crearPedido(@RequestBody PedidosDTO pedidosDTO) {
         try {
-            // Convertir el DTO a la entidad Pedidos
-            Pedidos pedido = pedidosMapper.toEntity(pedidosDTO);
+            // Convertir el DTO a la entidad Pedidos (usando el mapeo manual)
+            Pedidos pedido = PedidosMapper.toEntity(pedidosDTO, pedidosDTO.getProducto());
 
             // Crear el pedido usando el servicio
             Pedidos pedidoCreado = pedidosService.crearPedidos(pedido.getId(), pedido.getProducto(), pedido.getCliente());
 
-            // Convertir el pedido creado a un DTO
-            PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoCreado);
+            // Convertir el pedido creado a un DTO (usando el mapeo manual)
+            PedidosDTO pedidoDTO = PedidosMapper.toDTO(pedidoCreado);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(pedidoDTO);
         } catch (RuntimeException e) {
@@ -56,9 +53,9 @@ public class PedidosController {
     public ResponseEntity<List<PedidosDTO>> listarPedidos() {
         List<Pedidos> pedidos = pedidosService.findAll();
 
-        // Convertir la lista de Pedidos a PedidosDTO usando el mapper
+        // Convertir la lista de Pedidos a PedidosDTO usando el mapeo manual
         List<PedidosDTO> pedidosDTO = pedidos.stream()
-                                             .map(pedidosMapper::toDTO)
+                                             .map(PedidosMapper::toDTO)
                                              .collect(Collectors.toList());
 
         return ResponseEntity.ok(pedidosDTO);
@@ -68,30 +65,29 @@ public class PedidosController {
     @GetMapping("/{id}")
     public ResponseEntity<PedidosDTO> obtenerDetallesPedido(@PathVariable Long id) {
         Pedidos pedido = pedidosService.findById(id);
-        PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedido);
+
+        // Convertir el pedido a un DTO usando el mapeo manual
+        PedidosDTO pedidoDTO = PedidosMapper.toDTO(pedido);
 
         return ResponseEntity.ok(pedidoDTO);
     }
 
-    // Actualizar el estado de un pedido
     @PutMapping("/{id}/estado")
-    public ResponseEntity<PedidosDTO> actualizarEstadoPedido(
-            @PathVariable Long id,
-            @RequestParam String nuevoEstado) {
-        try {
-            // Llamar al servicio para actualizar el estado del pedido
-            Pedidos pedidoActualizado = pedidosService.actualizarEstadoPedido(id, nuevoEstado);
+public ResponseEntity<PedidosDTO> cambiarEstadoPedido(
+        @PathVariable Long id,
+        @RequestParam Pedidos.Estado estado) {
+    try {
+        // Cambiar el estado del pedido usando el servicio
+        Pedidos pedidoActualizado = pedidosService.cambiarEstado(id, estado);
 
-            // Convertir el pedido actualizado a un PedidosDTO
-            PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoActualizado);
+        // Convertir el pedido actualizado a un DTO
+        PedidosDTO pedidoDTO = PedidosMapper.toDTO(pedidoActualizado);
 
-            // Retornar la respuesta con el DTO
-            return ResponseEntity.ok(pedidoDTO);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Manejar pedido no encontrado
-        }
+        return ResponseEntity.ok(pedidoDTO);
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Manejar pedido no encontrado
     }
-
+}
 
     // Eliminar un producto de la lista de un pedido
     @DeleteMapping("/{id}/productos/{productoId}")
@@ -103,7 +99,7 @@ public class PedidosController {
             Pedidos pedidoActualizado = pedidosService.eliminarProducto(id, productoId);
 
             // Convertir el pedido actualizado a un PedidosDTO
-            PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoActualizado);
+            PedidosDTO pedidoDTO = PedidosMapper.toDTO(pedidoActualizado);
 
             return ResponseEntity.ok(pedidoDTO);
         } catch (RuntimeException e) {
@@ -111,33 +107,33 @@ public class PedidosController {
         }
     }
 
-      // Recuperar un pedido eliminado (revertir eliminación lógica)
-      @PutMapping("/{id}/recuperar")
-      public ResponseEntity<PedidosDTO> recuperarPedido(@PathVariable Long id) {
-          try {
-              Pedidos pedidoRecuperado = pedidosService.recuperarPedido(id);
-  
-              // Convertir el pedido recuperado a un PedidosDTO
-              PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoRecuperado);
-  
-              return ResponseEntity.ok(pedidoDTO);
-          } catch (RuntimeException e) {
-              return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Manejar pedido no encontrado
-          }
-      }
+    // Recuperar un pedido eliminado (revertir eliminación lógica)
+    @PutMapping("/{id}/recuperar")
+    public ResponseEntity<PedidosDTO> recuperarPedido(@PathVariable Long id) {
+        try {
+            Pedidos pedidoRecuperado = pedidosService.recuperarPedido(id);
 
-    // Agregar un producto
-    @PostMapping("/{id}/productos")
-        public ResponseEntity<PedidosDTO> agregarProducto(
-        @PathVariable Long id,
-        @RequestBody Producto producto) {
-    Pedidos pedidoActualizado = pedidosService.agregarProducto(id, producto);
-    PedidosDTO pedidoDTO = pedidosMapper.toDTO(pedidoActualizado);
-    return ResponseEntity.ok(pedidoDTO);
+            // Convertir el pedido recuperado a un PedidosDTO
+            PedidosDTO pedidoDTO = PedidosMapper.toDTO(pedidoRecuperado);
 
-
+            return ResponseEntity.ok(pedidoDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Manejar pedido no encontrado
+        }
     }
 
+    // Agregar un producto a un pedido
+    @PostMapping("/{id}/productos")
+    public ResponseEntity<PedidosDTO> agregarProducto(
+            @PathVariable Long id,
+            @RequestBody Producto producto) {
+        Pedidos pedidoActualizado = pedidosService.agregarProducto(id, producto);
+
+        // Convertir el pedido actualizado a un PedidosDTO
+        PedidosDTO pedidoDTO = PedidosMapper.toDTO(pedidoActualizado);
+
+        return ResponseEntity.ok(pedidoDTO);
+    }
 
     // Eliminar un pedido (eliminación lógica)
     @DeleteMapping("/{id}")
