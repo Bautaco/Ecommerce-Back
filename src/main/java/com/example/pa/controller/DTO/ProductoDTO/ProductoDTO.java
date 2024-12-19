@@ -7,7 +7,11 @@ import com.example.pa.model.Categoria;
 
 import jakarta.validation.constraints.Min;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Data
 public class ProductoDTO {
     private Long id;
