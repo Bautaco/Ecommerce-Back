@@ -67,20 +67,19 @@ public class PedidosService {
         }
     }
 
-
-    public Pedidos actualizarEstadoPedido(Long id, String nuevoEstado) {
+    public Pedidos cambiarEstado(Long id, Pedidos.Estado estado) {
         // Buscar el pedido por ID
-        Pedidos pedido = pedidosRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pedido no encontrado con ID: " + id));
+        Pedidos pedido = findById(id);
     
-        // Validar y convertir el nuevo estado
-        Estado estadoValido = obtenerEstadoValido(nuevoEstado);
+        if (pedido == null) {
+            throw new RuntimeException("Pedido no encontrado.");
+        }
     
-        // Actualizar el estado del pedido
-        pedido.setEstado(estadoValido);
+        // Actualizar el estado
+        pedido.setEstado(estado);
     
         // Guardar los cambios en la base de datos
-        return pedidosRepository.save(pedido); // Retornar el pedido actualizado
+        return pedidosRepository.save(pedido);
     }
     
     // Método auxiliar para validar el estado
