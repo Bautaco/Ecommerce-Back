@@ -1,76 +1,38 @@
 package com.example.pa.controller.DTO.PedidosDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import com.example.pa.model.Pedidos.Estado;
-import com.example.pa.model.Producto;
 
+import com.example.pa.controller.DTO.ProductoPedidoDTO.ProductoPedidoDTO;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PedidosDTO {
-    private long id;
-    private boolean activo;
-    private Estado estado;  // Usamos el enum directamente
-    private long  cliente;  // Objeto completo del cliente
-    private List<Producto> producto;  // Lista de productos
+    private Long id;
+    private Long clienteId;
+    private String estado; // EN_PROCESO, ENVIADO, COMPLETADO
+    private LocalDateTime fechaCreacion;
+    private double total;
+    private List<ProductoPedidoDTO> productos;
 
-    // Constructor para facilitar la creación
-    public PedidosDTO(long id, List<Producto> producto, Estado estado, boolean activo, long cliente) {
-        this.id = id;
-        this.producto = producto;
-        this.estado = estado;
-        this.activo = activo;
-        this.cliente = cliente;
+
+    public List<ProductoPedidoDTO> getProductos() {
+        return productos;
     }
 
-    public double getTotal() {
-        return producto.stream().mapToDouble(p -> p.getPrecio() * p.getStock()).sum();
+    public void setProductos(List<ProductoPedidoDTO> productos) { // <---- Asegurar que esto exista
+        this.productos = productos;
     }
 }
-
-//-------------------------------------------------------------------------
-// package com.example.pa.controller.DTO.PedidosDTO;
-// import lombok.Data;
-// import java.util.List;
-
-// import com.example.pa.controller.DTO.ProductoDTO.ProductoDTO;
-
-// @Data
-// public class PedidosDTO {
-//     private long id;                    // ID del pedido
-//     private boolean activo;             // Si el pedido está activo o no
-//     private Estado estado;              // Estado del pedido
-//     private long cliente;               // ID del cliente asociado al pedido
-//     private List<ProductoDTO> productos; // Lista de productos como DTOs
-
-//     // Constructor para inicializar los campos
-//     public PedidosDTO(long id, boolean activo, Estado estado, long cliente, List<ProductoDTO> productos) {
-//         this.id = id;
-//         this.activo = activo;
-//         this.estado = estado;
-//         this.cliente = cliente;
-//         this.productos = productos;
-//     }
-
-//     // Constructor vacío para frameworks (como MapStruct o Jackson)
-//     public PedidosDTO() {
-//     }
-
-//     // Método para calcular el total del pedido
-//     public double getTotal() {
-//         return productos.stream().mapToDouble(p -> p.getPrecio() * p.getCantidad()).sum();
-//     }
-
-//     // Enum Estado (puedes moverlo a una clase aparte si lo prefieres)
-//     public enum Estado {
-//         En_proceso, Enviado, Completado
-//     }
-// }
-
     
     

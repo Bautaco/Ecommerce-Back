@@ -1,64 +1,64 @@
 package com.example.pa.model;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
 
 
 @Entity
 @Setter
 @Getter
-@ToString(exclude = "producto")
+@AllArgsConstructor
 public class Pedidos {
 
    
     public enum Estado{En_proceso,Enviado,Completado}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean activo =true;
+    
+    private Long clienteId; // ID del cliente
+
+    private boolean activo;
+
+    @Enumerated(EnumType.STRING)
     private Estado estado;
-    private long cliente; // Cambiado de User a long para almacenar solo el ID
 
-    @OneToMany(mappedBy = "pedidos", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private LocalDateTime fechaCreacion;
 
-    private List<Producto> producto = new ArrayList<>();
+    private double total; // Total del pedido
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ProductoPedido> productos = new ArrayList<>();
 
     public Pedidos() {
-    }
-    public Pedidos(long ID, List<Producto> listaProducto , long clienteid){
-        this.cliente=clienteid;
-        this.id=ID;
-        this.producto=listaProducto;
-        this.estado = Estado.En_proceso; 
-        this.activo=true;
-    }
-    public void setEstado(Estado estadoValido) {
-        this.estado=estadoValido;
+        this.fechaCreacion = LocalDateTime.now();
+        this.estado = Estado.En_proceso;
     }
 
-    public void eliminarProducto(long idProducto) {
-        producto.removeIf(producto -> producto.getId().equals(idProducto));
+    public void agregarProducto(ProductoPedido productoPedido) {
+        this.productos.add(productoPedido);
+        productoPedido.setPedido(this);
+        this.total += productoPedido.getSubtotal();
     }
 
-    public double getTotal() {
-        return producto.stream().mapToDouble(p -> p.getPrecio() * p.getStock()).sum();
-    }
-
-    public void agregarProducto(Producto producto)  //agrega un producto a la compra
-    {
-        producto.add(producto);
-    }
-    public void setActivo(boolean b) {
-        this.activo=b;
+    public void eliminarProducto(ProductoPedido productoPedido) {
+        this.productos.remove(productoPedido);
+        productoPedido.setPedido(null);
+        this.total -= productoPedido.getSubtotal();
     }
 }

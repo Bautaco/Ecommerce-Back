@@ -8,99 +8,80 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.pa.model.Pedidos;
-import com.example.pa.model.Pedidos.Estado;
 import com.example.pa.model.Producto;
+import com.example.pa.model.ProductoPedido;
 import com.example.pa.repository.PedidosRepository;
+import com.example.pa.repository.ProductoPedidoRepository;
+import com.example.pa.repository.ProductoRepository;
 
 
 @Service
 public class PedidosService {
+     @Autowired
+    private PedidosRepository pedidoRepository;
+
     @Autowired
-    private PedidosRepository pedidosRepository;
-    
-    public  List<Pedidos> findAll() {
-        return pedidosRepository.findByActivoTrue();
-    }
-    
+    private ProductoPedidoRepository productoPedidoRepository;
 
-    // Buscar una compra por ID
-    public Pedidos findById(Long id) {
-        return pedidosRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Compra no encontrada con ID: " + id));
+    @Autowired
+    private ProductoRepository productoRepository;
+
+    public Pedidos crearPedido(Long clienteId) {
+        Pedidos pedido = new Pedidos();
+        pedido.setClienteId(clienteId);
+        return pedidoRepository.save(pedido);
     }
 
-    //  actualizar una compra
-    public Pedidos saveOrUpdate(Pedidos compra) {
-        return pedidosRepository.save(compra);
+    public Pedidos agregarProducto(Long pedidoId, Long productoId, int cantidad) {
+        Pedidos pedido = pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+        Producto producto = productoRepository.findById(productoId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        ProductoPedido productoPedido = new ProductoPedido();
+        productoPedido.setProducto(producto);
+        productoPedido.setCantidad(cantidad);
+        productoPedido.calcularSubtotal();
+
+        pedido.agregarProducto(productoPedido);
+        productoPedidoRepository.save(productoPedido);
+
+        return pedidoRepository.save(pedido);
     }
 
+    public Pedidos eliminarProducto(Long pedidoId, Long productoPedidoId) {
+        Pedidos pedido = pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
 
-    // Agregar un producto a una compra
-    public Pedidos agregarProducto(Long compraId,Producto producto ) {
-        Pedidos compra = findById(compraId); // Buscar la compra
-        compra.agregarProducto(producto); // Agregar el producto
-        return pedidosRepository.save(compra); // Guardar la compra actualizada
+        ProductoPedido productoPedido = productoPedidoRepository.findById(productoPedidoId)
+                .orElseThrow(() -> new RuntimeException("ProductoPedido no encontrado"));
+
+        pedido.eliminarProducto(productoPedido);
+        productoPedidoRepository.delete(productoPedido);
+
+        return pedidoRepository.save(pedido);
     }
 
-    // Eliminar un producto de una compra
-    public Pedidos eliminarProducto(Long compraId, Long productoId) {
-        Pedidos compra = findById(compraId); // Buscar la compra
-        compra.eliminarProducto(productoId); // Eliminar el producto por ID
-        return pedidosRepository.save(compra); // Guardar la compra actualizada
+    public List<Pedidos> obtenerTodosLosPedidos() {
+        return pedidoRepository.findAll();
     }
 
-    // crear compra
-    public Pedidos crearPedidos(long id,List<Producto>listaProducto,long cliente)
-    {
-        Pedidos compra = new Pedidos (id,listaProducto,cliente);
-        return pedidosRepository.save(compra);
+    public Optional<Pedidos> obtenerPedidoPorId(Long id) {
+        return pedidoRepository.findById(id);
     }
 
-
-    //Eliminar Pedido
-    public void eliminarPedidos(long id){
-    Optional<Pedidos> compraOpt = pedidosRepository.findById(id);
-    if (compraOpt.isPresent()){
-        Pedidos compra = compraOpt.get();
-        compra.setActivo(false); // Eliminación lógica: marca el pedido como inactivo
-        pedidosRepository.save(compra); // Asegúrate de guardar los cambios en la base de datos
-        }
-    }
-
-    public Pedidos cambiarEstado(Long id, Pedidos.Estado estado) {
-        // Buscar el pedido por ID
-        Pedidos pedido = findById(id);
-    
-        if (pedido == null) {
-            throw new RuntimeException("Pedido no encontrado.");
-        }
-    
-        // Actualizar el estado
+    public Pedidos actualizarEstado(Long pedidoId, Pedidos.Estado estado) {
+        Pedidos pedido = pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
         pedido.setEstado(estado);
-    
-        // Guardar los cambios en la base de datos
-        return pedidosRepository.save(pedido);
+        return pedidoRepository.save(pedido);
     }
     
-    // Método auxiliar para validar el estado
-    private Estado obtenerEstadoValido(String nuevoEstado) {
-        try {
-            return Estado.valueOf(nuevoEstado.toUpperCase()); // Insensible a mayúsculas/minúsculas
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Estado no válido: " + nuevoEstado);
-        }
+    public List<Producto> obtenerProductosPorId(List<Long> productoIds) {
+        return productoRepository.findAllById(productoIds);
     }
 
-    public Pedidos recuperarPedido(Long id) {
-        Optional<Pedidos> compraOpt = pedidosRepository.findById(id);
-        if (compraOpt.isPresent()) {
-            Pedidos compra = compraOpt.get();
-            compra.setActivo(true); // Revertir la eliminación lógica
-            return pedidosRepository.save(compra); // Guardar los cambios y devolver la entidad actualizada
-        } else {
-            throw new RuntimeException("Pedido no encontrado con ID: " + id);
-        }
+    public Pedidos guardarPedido(Pedidos pedido) {
+        return pedidoRepository.save(pedido);
     }
-    
-
 }
