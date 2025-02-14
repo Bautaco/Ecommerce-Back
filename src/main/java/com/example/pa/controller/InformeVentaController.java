@@ -1,13 +1,25 @@
 package com.example.pa.controller;
 
-import com.example.pa.service.EstadisticasService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.pa.controller.DTO.PedidosDTO.PedidosDTO;
+import com.example.pa.controller.Mapper.PedidosMapper;
+import com.example.pa.model.Pedidos;
+import com.example.pa.service.EstadisticasService;
+import com.example.pa.service.PedidosService;
+
+
 
 @RestController
 @RequestMapping("/api/estadisticas")
@@ -15,6 +27,12 @@ public class InformeVentaController {
 
     @Autowired
     private EstadisticasService estadisticasService;
+
+    @Autowired
+    private PedidosService pedidoService;
+
+    @Autowired
+    private PedidosMapper pedidoMapper;
 
     @Autowired
     public InformeVentaController(EstadisticasService estadisticasService) {
@@ -38,7 +56,33 @@ public class InformeVentaController {
         List<Map<String, Object>> productos = estadisticasService.obtenerProductosMasVendidos();
         return ResponseEntity.ok(productos);
     }
-   
-  
+
+    @GetMapping("/pedidos_por_fechas")
+    public ResponseEntity<Map<String, Object>> obtenerPedidosPorFecha(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaInicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaFin) {
+
+        List<Pedidos> pedidos;
+
+        if (fechaInicio != null && fechaFin != null) {
+            pedidos = pedidoService.obtenerPedidosPorRangoDeFechas(fechaInicio, fechaFin);
+        } else {
+            pedidos = pedidoService.obtenerTodosLosPedidos();
+        }
+
+        List<PedidosDTO> pedidosDTO = pedidos.stream()
+                .map(pedidoMapper::toDTO)
+                .collect(Collectors.toList());
+        
+        Double ventasTotales = estadisticasService.calcularVentasTotales(fechaInicio, fechaFin);
+        
+        Map<String, Object> response = Map.of(
+                "pedidos", pedidosDTO,
+                "ventasTotales", ventasTotales
+        );
+        
+        return ResponseEntity.ok(response);
+    }
+
 }
 

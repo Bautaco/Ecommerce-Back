@@ -1,6 +1,7 @@
 package com.example.pa.service;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,4 +85,10 @@ public class PedidosService {
     public Pedidos guardarPedido(Pedidos pedido) {
         return pedidoRepository.save(pedido);
     }
+
+    public List<Pedidos> obtenerPedidosPorRangoDeFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+    return pedidoRepository.pedidosporfecha(fechaInicio, fechaFin);
+}
+
+    
 }
