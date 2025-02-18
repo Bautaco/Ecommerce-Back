@@ -28,10 +28,9 @@ public interface PedidosRepository extends JpaRepository<Pedidos, Long> {
 
     @Query("SELECT COUNT(p) FROM Pedidos p WHERE p.estado = com.example.pa.model.Pedidos.Estado.Completado AND p.fechaCreacion BETWEEN :fechaInicio AND :fechaFin")
     Long contarPedidosEntreFechas(@Param("fechaInicio") LocalDateTime fechaInicio, @Param("fechaFin") LocalDateTime fechaFin);
-   
-    
-    // @Query("SELECT FROM Pedidos p WHERE p.estado = com.example.pa.model.Pedidos.Estado.Completado AND p.fechaCreacion BETWEEN :fechaInicio AND :fechaFin")
+
     @Query("SELECT p FROM Pedidos p WHERE p.estado = com.example.pa.model.Pedidos.Estado.Completado AND p.fechaCreacion BETWEEN :fechaInicio AND :fechaFin")
     List<Pedidos> pedidosporfecha(@Param("fechaInicio") LocalDateTime fechaInicio, @Param("fechaFin") LocalDateTime fechaFin);
-    // List<Pedidos> findByFechaPedidoBetween(LocalDate fechaInicio, LocalDate fechaFin);
+    
+    
 }

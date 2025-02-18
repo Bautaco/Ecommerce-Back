@@ -1,16 +1,16 @@
 package com.example.pa.service;
 
-import com.example.pa.repository.PedidosRepository;
-import com.example.pa.repository.ProductoPedidoRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.pa.repository.PedidosRepository;
+import com.example.pa.repository.ProductoPedidoRepository;
 
 @Service
 public class EstadisticasService {
@@ -41,5 +41,21 @@ public class EstadisticasService {
         }
 
         return productosMasVendidos;
+    }
+
+    public List<Map<String, Object>> obtenerProductoCostosoMasVendidos() {
+        List<Object[]> resultados = productoPedidoRepository.obtenerProductosMasVendidosxPrecio();
+        List<Map<String, Object>> ProductoCostoso = new ArrayList<>();
+
+        for (Object[] resultado : resultados) {
+            Map<String, Object> producto = new HashMap<>();
+            producto.put("nombre", resultado[0]);
+            producto.put("precioPorUnidad", resultado[1]);
+            producto.put("cantidadVendida", resultado[2]);
+            producto.put("totalVendido", resultado[3]);
+            ProductoCostoso.add(producto);
+        }
+
+        return ProductoCostoso;
     }
 }

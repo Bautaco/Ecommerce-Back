@@ -54,35 +54,51 @@ public class InformeVentaController {
     @GetMapping("/productosmasvendidos")
     public ResponseEntity<List<Map<String, Object>>> obtenerProductosMasVendidos() {
         List<Map<String, Object>> productos = estadisticasService.obtenerProductosMasVendidos();
-        return ResponseEntity.ok(productos);
+        
+        // Limitar la lista a 5 productos o menos
+        List<Map<String, Object>> productosLimitados = productos.size() > 5 ? productos.subList(0, 5) : productos;
+        
+        return ResponseEntity.ok(productosLimitados);
+    }
+
+    @GetMapping("/productosmasrecaudados")
+    public ResponseEntity<List<Map<String, Object>>> obtenerProductoCostosoMasVendidos() {
+        List<Map<String, Object>> productos = estadisticasService.obtenerProductoCostosoMasVendidos();
+        
+        // Limitar la lista a 5 productos o menos
+        List<Map<String, Object>> productosLimitados = productos.size() > 5 ? productos.subList(0, 5) : productos;
+        
+        return ResponseEntity.ok(productosLimitados);
     }
 
     @GetMapping("/pedidos_por_fechas")
     public ResponseEntity<Map<String, Object>> obtenerPedidosPorFecha(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaInicio,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaFin) {
-
+    
         List<Pedidos> pedidos;
-
+    
         if (fechaInicio != null && fechaFin != null) {
             pedidos = pedidoService.obtenerPedidosPorRangoDeFechas(fechaInicio, fechaFin);
         } else {
             pedidos = pedidoService.obtenerTodosLosPedidos();
         }
-
+    
         List<PedidosDTO> pedidosDTO = pedidos.stream()
                 .map(pedidoMapper::toDTO)
                 .collect(Collectors.toList());
         
         Double ventasTotales = estadisticasService.calcularVentasTotales(fechaInicio, fechaFin);
+        Long pedidosTotales = estadisticasService.contarPedidos(fechaInicio, fechaFin);
         
         Map<String, Object> response = Map.of(
                 "pedidos", pedidosDTO,
-                "ventasTotales", ventasTotales
+                "ventasTotales", ventasTotales,
+                "pedidosTotales", pedidosTotales
         );
         
         return ResponseEntity.ok(response);
-    }
+    }    
 
 }
 

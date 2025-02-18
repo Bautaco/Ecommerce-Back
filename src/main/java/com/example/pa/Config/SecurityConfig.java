@@ -49,6 +49,8 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:3000"); // Cambia esto por los dominios permitidos
+        config.addAllowedOrigin("http://localhost:3001"); // Cambia esto por los dominios permitidos
+
         config.addAllowedMethod("*"); // Permitir todos los métodos HTTP
         config.addAllowedHeader("*"); // Permitir todos los encabezados
         config.setAllowCredentials(true); // Permitir cookies y credenciales
@@ -63,6 +65,7 @@ public class SecurityConfig {
     private UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:3000"); // Cambia esto por los dominios permitidos
+        config.addAllowedOrigin("http://localhost:3001"); // Cambia esto por los dominios permitidos
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);
