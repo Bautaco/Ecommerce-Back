@@ -29,8 +29,8 @@ public class EstadisticasService {
         return pedidoRepository.contarPedidosEntreFechas(fechaInicio, fechaFin);
     }
 
-    public List<Map<String, Object>> obtenerProductosMasVendidos() {
-        List<Object[]> resultados = productoPedidoRepository.obtenerProductosMasVendidos();
+    public List<Map<String, Object>> obtenerProductosMasVendidos(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        List<Object[]> resultados = productoPedidoRepository.obtenerProductosMasVendidos(fechaInicio, fechaFin);
         List<Map<String, Object>> productosMasVendidos = new ArrayList<>();
 
         for (Object[] resultado : resultados) {
@@ -43,8 +43,8 @@ public class EstadisticasService {
         return productosMasVendidos;
     }
 
-    public List<Map<String, Object>> obtenerProductoCostosoMasVendidos() {
-        List<Object[]> resultados = productoPedidoRepository.obtenerProductosMasVendidosxPrecio();
+    public List<Map<String, Object>> obtenerProductoCostosoMasVendidos(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        List<Object[]> resultados = productoPedidoRepository.obtenerProductosMasVendidosxPrecio(fechaInicio, fechaFin);
         List<Map<String, Object>> ProductoCostoso = new ArrayList<>();
 
         for (Object[] resultado : resultados) {

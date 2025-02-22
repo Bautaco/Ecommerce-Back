@@ -52,8 +52,10 @@ public class InformeVentaController {
     }
 
     @GetMapping("/productosmasvendidos")
-    public ResponseEntity<List<Map<String, Object>>> obtenerProductosMasVendidos() {
-        List<Map<String, Object>> productos = estadisticasService.obtenerProductosMasVendidos();
+    public ResponseEntity<List<Map<String, Object>>> obtenerProductosMasVendidos(
+        @RequestParam(required = true)  LocalDateTime fechaInicio,
+        @RequestParam(required = true)  LocalDateTime fechaFin)  {
+        List<Map<String, Object>> productos = estadisticasService.obtenerProductosMasVendidos(fechaInicio, fechaFin);
         
         // Limitar la lista a 5 productos o menos
         List<Map<String, Object>> productosLimitados = productos.size() > 5 ? productos.subList(0, 5) : productos;
@@ -62,8 +64,10 @@ public class InformeVentaController {
     }
 
     @GetMapping("/productosmasrecaudados")
-    public ResponseEntity<List<Map<String, Object>>> obtenerProductoCostosoMasVendidos() {
-        List<Map<String, Object>> productos = estadisticasService.obtenerProductoCostosoMasVendidos();
+    public ResponseEntity<List<Map<String, Object>>> obtenerProductoCostosoMasVendidos(
+        @RequestParam(required = true)  LocalDateTime fechaInicio,
+        @RequestParam(required = true)  LocalDateTime fechaFin) {
+        List<Map<String, Object>> productos = estadisticasService.obtenerProductoCostosoMasVendidos(fechaInicio, fechaFin);
         
         // Limitar la lista a 5 productos o menos
         List<Map<String, Object>> productosLimitados = productos.size() > 5 ? productos.subList(0, 5) : productos;
